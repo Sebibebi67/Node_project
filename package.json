@@ -1,15 +1,25 @@
 {
-  "name": "nodeproject",
+  "name": "nodebot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "main": "rs.js",
   "dependencies": {
     "express": "^4.17.1",
     "rivescript": "^2.1.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sebibebi67/Node_project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sebibebi67/Node_project/issues"
+  },
+  "homepage": "https://github.com/Sebibebi67/Node_project#readme"
 }

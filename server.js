@@ -9,7 +9,7 @@ var path = require('path');
 // Own Modules
 var webRoutes = require('./routes/webRoutes');
 var apiRoutes = require('./routes/apiRoutes');
-var rs = require('./rs');
+var ai = require('./ai/brain');
 
 //===========================
 // Define
@@ -22,13 +22,19 @@ var app = express();
 var myRouter = express.Router();
 
 //===========================
-// Start the server
+// Load AI
+
+ai.load();
+
+//===========================
+// Define routes
 
 app.use(webRoutes);
 app.use(apiRoutes);
 
+//===========================
+// Start the server
+
 app.listen(port, hostname, function(){
 	console.log("To use the API : http://"+ hostname +":"+port+"\n");
 });
-
-rs.loading();
