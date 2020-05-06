@@ -31,5 +31,4 @@ app.listen(port, hostname, function(){
 	console.log("To use the API : http://"+ hostname +":"+port+"\n");
 });
 
-
 rs.loading();

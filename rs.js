@@ -4,14 +4,12 @@ var bot;
 function loading() {
     bot = new RiveScript();
 
-
-
     // Load a directory full of RiveScript documents (.rive files). This is for
     // Node.JS only: it doesn't work on the web!
     // bot.loadDirectory("ressources/rivescript").then(loading_done).catch(loading_error);
 
     // Load an individual file.
-    bot.loadFile("ressources/rivescript/standard.rive").then(loading_done).catch(loading_error);
+    bot.loadFile("ressources/rivescript/standard.rive");
 
     // Load a list of files all at once (the best alternative to loadDirectory
     // for the web!)
