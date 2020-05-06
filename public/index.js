@@ -55,8 +55,8 @@ function cursorFollow(){
     circle.div.style.top = 0;
     circle.div.style.opacity = 1;
     setInterval(function(){
-        circle.x = lerp(circle.x, mouseX, 0.1);
-        circle.y = lerp(circle.y, mouseY, 0.1);
+        circle.x = lerp(circle.x, mouseX, 0.2);
+        circle.y = lerp(circle.y, mouseY, 0.2);
         circle.update();
     }, 1000/60);
 }
