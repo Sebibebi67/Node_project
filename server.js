@@ -9,6 +9,7 @@ var path = require('path');
 // Own Modules
 var webRoutes = require('./routes/webRoutes');
 var apiRoutes = require('./routes/apiRoutes');
+var rs = require('./rs');
 
 //===========================
 // Define
@@ -35,4 +36,6 @@ app.use(apiRoutes);
 app.listen(port, hostname, function(){
 	console.log("To use the API : http://"+ hostname +":"+port+"\n");
 });
- 
+
+
+// rs.loading();
