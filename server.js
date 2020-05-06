@@ -22,12 +22,6 @@ var app = express();
 var myRouter = express.Router();
 
 //===========================
-// Web part
-
-//===========================
-//API part
-
-//===========================
 // Start the server
 
 app.use(webRoutes);
