@@ -1,11 +1,14 @@
+var RiveScript = require('rivescript');
+var bot;
+
 function loading() {
-    var bot = new RiveScript();
+    bot = new RiveScript();
 
 
 
     // Load a directory full of RiveScript documents (.rive files). This is for
     // Node.JS only: it doesn't work on the web!
-    bot.loadDirectory("ressources/rivescript").then(loading_done).catch(loading_error);
+    // bot.loadDirectory("ressources/rivescript").then(loading_done).catch(loading_error);
 
     // Load an individual file.
     bot.loadFile("ressources/rivescript/standard.rive").then(loading_done).catch(loading_error);
@@ -23,7 +26,9 @@ function loading() {
     // to catch when they've finished. If you use loadDirectory (or loadFile
     // with multiple file names), the success function is called only when ALL
     // the files have finished loading.
+}
 
+function loading_done(){
     console.log("Bot has finished loading!");
 
     // Now the replies must be sorted!
@@ -41,9 +46,9 @@ function loading() {
     });
 }
 
-// // It's good to catch errors too!
-// function loading_error(error, filename, lineno) {
-//     console.log("Error when loading files: " + error);
-// }
+// It's good to catch errors too!
+function loading_error(error, filename, lineno) {
+    console.log("Error when loading files: " + error);
+}
 
 module.exports = {loading}

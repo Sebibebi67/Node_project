@@ -32,4 +32,4 @@ app.listen(port, hostname, function(){
 });
 
 
-// rs.loading();
+rs.loading();
