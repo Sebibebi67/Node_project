@@ -1,0 +1,77 @@
+html, body {
+    z-index: 0;
+    margin : 0;
+    padding : 0;
+    
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgb(0, 0, 0);
+
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#messages-div {
+	width: 50%;
+	height: calc(100% - 100px);
+}
+
+#messages-container {
+	width: 100%;
+	height: calc(100% - 10px);
+	margin-top: 10px;
+
+	border: solid 1px white;
+	border-radius: 10px;
+}
+
+#horizontal-separator {
+	width: 50%;
+	border: 1px solid white;
+}
+
+#input-div {
+	width: 50%;
+	height: 100px;
+
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#input {
+	width : calc(100% - 80px);
+	height : 60px;
+	padding: 5px;
+
+	color: white;
+	background-color: transparent;
+	resize: none;
+	border: solid 1px white;
+	border-radius: 10px;
+    font-family: 'Josefin Slab', serif;
+    font-size: 20px;
+}
+
+#send-button {
+	width: 70px;
+	height: 70px;
+
+	color: black;
+	background-image: url('/icon/send');
+	background-size: 70% 70%;
+	background-repeat: no-repeat;
+	background-position: center;
+	
+    font-family: 'Josefin Slab', serif;
+    font-size: 20px;
+}
+
+#send-button:hover {
+	text-decoration: none;
+	filter: brightness(120%);
+}

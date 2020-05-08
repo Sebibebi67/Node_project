@@ -1,34 +1,12 @@
 
 // Wait for page to load
 window.addEventListener('load', (event) => {
-    titleAnimation();
     cursorFollow();
 });
 
-// Title animation
-let titleText = "Hello, I'm Ally."
-let titleAnimationInterval;
-
-function titleAnimation(){
-    let title = document.getElementById("title");
-    
-    let i = 0;
-    titleAnimationInterval = setInterval(function(){
-        title.innerHTML += titleText[i];
-        i++
-        if (i >= titleText.length){
-            stopTitleAnimationInterval();
-        }
-    }, 200);
-}
-
-function stopTitleAnimationInterval(){
-    clearTimeout(titleAnimationInterval);
-}
-
 // Follow cursor
-let mouseX = window.innerWidth/2;
-let mouseY = window.innerHeight/2;
+let mouseX = -100;
+let mouseY = -100;
 let circle = {
     "x" : -100,
     "y" : -100,
@@ -41,7 +19,6 @@ let circle = {
         circle.div.style.transform = "translateX(" + xn + "px) translateY(" + yn + "px)";
     }
 };
-let firstTime = true;
 
 window.onmousemove = function(event) {
     mouseX = event.clientX;
@@ -55,8 +32,8 @@ function cursorFollow(){
     circle.div.style.top = 0;
     circle.div.style.opacity = 1;
     setInterval(function(){
-        circle.x = lerp(circle.x, mouseX, 0.2);
-        circle.y = lerp(circle.y, mouseY, 0.2);
+        circle.x = lerp(circle.x, mouseX, 0.1);
+        circle.y = lerp(circle.y, mouseY, 0.1);
         circle.update();
     }, 1000/60);
 }

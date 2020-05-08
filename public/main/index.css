@@ -1,0 +1,96 @@
+html, body {
+    z-index: 0;
+    overflow: hidden;
+    margin : 0;
+    padding : 0;
+    
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgb(0, 0, 0);
+
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    transition-property: transform;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+#background-circle {
+    z-index: 1;
+}
+
+#title {
+    z-index: 2;
+    font-family: 'Josefin Slab', serif;
+    font-size: 100px;
+    color: rgb(255, 255, 255);
+}
+
+/* The animation code */
+@keyframes move {
+    0% {transform: translateX(-10px)}
+    50% {transform: translateX(10px)}
+    100% {transform: translateX(-10px)}
+  }
+
+#subtitle {
+    z-index: 2;
+    margin: 0;
+    opacity: 0; 
+    height: 0;
+
+    transition-property: opacity, height, margin, transform;
+    transition-duration: 0.5s, 0.5s, 0.5s, 0.5s;
+    transition-delay: 0.5s, 0s, 0.5s, 0s;
+    transition-timing-function: linear, ease-in, ease-out, ease-in-out;
+
+    animation: move 1s infinite;
+
+    color: rgb(255, 255, 255);
+}
+
+#subtitle-link {
+    color : white;
+    text-decoration: none;
+    font-family: 'Josefin Slab', serif;
+    font-size: 50px;
+
+    transition-property: font-size;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+}
+
+#subtitle-link:hover {
+    color : white;
+    mix-blend-mode: difference;
+    text-decoration: none;
+    color: grey;
+}
+
+/*
+    -webkit-transition: height 1s 0s, margin-top 1s 1, opacity 1s 1;
+    -moz-transition: height 1s 0s, margin-top 1s 1, opacity 1s 1;
+    -o-transition: height 1s 0s, margin-top 1s 1, opacity 1s 1;
+*/
+
+#circle{
+    z-index: 100;
+    pointer-events: none;
+    position: absolute;
+    left: -100px;
+    top: -100px;
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: white;
+    mix-blend-mode: difference;
+    transition: opacity 2s linear 3s;
+    opacity: 0;
+}
