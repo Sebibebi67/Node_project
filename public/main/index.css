@@ -17,7 +17,7 @@ html, body {
 
 body {
     transition-property: transform;
-    transition-duration: 1s;
+    transition-duration: 0s;
     transition-timing-function: ease-in;
 }
 
@@ -45,10 +45,10 @@ body {
     opacity: 0; 
     height: 0;
 
-    transition-property: opacity, height, margin, transform;
-    transition-duration: 0.5s, 0.5s, 0.5s, 0.5s;
-    transition-delay: 0.5s, 0s, 0.5s, 0s;
-    transition-timing-function: linear, ease-in, ease-out, ease-in-out;
+    transition-property: opacity, height, margin;
+    transition-duration: 0.5s, 0.5s, 0.5s;
+    transition-delay: 0.5s, 0s, 0.5s;
+    transition-timing-function: linear, ease-in, ease-out;
 
     animation: move 1s infinite;
 

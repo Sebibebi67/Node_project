@@ -32,7 +32,7 @@ router.route('/message-me.css')
 	res.sendFile(path.join(__dirname + '/../public/message-service/index.css'));
 })
 
-router.route('/message-me')
+router.route('/message-me.js')
 .get(function(req, res){ 
 	res.sendFile(path.join(__dirname + '/../public/message-service/index.js'));
 })
@@ -44,10 +44,11 @@ router.route('/icon/send')
 	res.sendFile(path.join(__dirname + '/../public/assets/icons/send.png'));
 })
 
-router.route('/icon/send_hover')
+
+/*router.route('/icon/send_hover')
 .get(function(req, res){ 
 	res.sendFile(path.join(__dirname + '/../public/assets/icons/send_hover.png'));
-})
+})*/
 
 //===============
 
