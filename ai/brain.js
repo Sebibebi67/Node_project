@@ -32,7 +32,7 @@ module.exports.loading = function(){
  * Returns an answer to the message send by a user
  * @param {String} username 
  * @param {String} message
- * @author Tony Chouteau
+ * @author Tony CHOUTEAU
  * @author Sébastien HERT
  */
 var response = function(username, message){
