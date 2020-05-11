@@ -8,7 +8,7 @@ var router = express.Router();
 //===========================
 // Load AI
 
-ai.load();
+ai.loading();
 
 //===========================
 // Routes
