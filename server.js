@@ -9,7 +9,6 @@ var path = require('path');
 // Own Modules
 var webRoutes = require('./routes/webRoutes');
 var apiRoutes = require('./routes/apiRoutes');
-var ai = require('./ai/brain');
 
 //===========================
 // Define
@@ -20,11 +19,6 @@ var port = 3000;
 var app = express();
 
 var myRouter = express.Router();
-
-//===========================
-// Load AI
-
-ai.load();
 
 //===========================
 // Define routes
