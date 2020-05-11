@@ -8,16 +8,14 @@ var bot = undefined;
 //===========================
 // Functions
 
-function loadingDone(files) {
-    console.log("ok");
+function loadingDone() {
+    console.log("Success Loading\n");
     bot.sortReplies();
-    bot.reply("local-user", "Hello").then((reply) => {
-        console.log(reply)
-    });
+    response("local-user", "hello");
 }
 
-function loadingError(files, error) {
-    console.log("error");
+function loadingError(error) {
+    console.log("Failed Loading: " + error);
 }
 
 module.exports.loading = function(){
@@ -29,8 +27,8 @@ module.exports.loading = function(){
     bot.loadFile("./ai/brain/standard.rive");
 }
 
-module.exports.response = function(username, message){
-    bot.reply("local-user", message).then(function (reply){
+var response = function(username, message){
+    bot.reply(username, message).then(function (reply){
         console.log(reply);
     });
 }
