@@ -23,8 +23,9 @@ var loading_error = function(error){
 }
 
 module.exports.response = function(username, message){
-    answer = bot.reply(username, message);
-    console.log(answer);
+    bot.reply("local-user", message).then(function (reply){
+        console.log(reply);
+    });
 }
 
 
