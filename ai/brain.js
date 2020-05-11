@@ -30,11 +30,9 @@ module.exports.loading = function(){
 }
 
 module.exports.response = function(username, message){
-    //console.log(bot);
-    bot.reply(username, message).then((reply) => {
-        console.log(reply)
+    bot.reply("local-user", message).then(function (reply){
+        console.log(reply);
     });
-    //console.log(answer);
 }
 
 // bot = test.loading();
