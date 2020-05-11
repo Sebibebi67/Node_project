@@ -24,7 +24,8 @@ var myRouter = express.Router();
 //===========================
 // Load AI
 
-ai.load();
+ai.loading();
+ai.response("local-user", "Hello");
 
 //===========================
 // Define routes

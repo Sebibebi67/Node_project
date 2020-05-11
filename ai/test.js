@@ -25,6 +25,8 @@ module.exports.loading = function() {
     // to catch when they've finished. If you use loadDirectory (or loadFile
     // with multiple file names), the success function is called only when ALL
     // the files have finished loading.
+
+    return bot;
 }
 
 var loading_done = function(){
