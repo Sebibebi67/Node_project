@@ -9,7 +9,6 @@ var path = require('path');
 // Own Modules
 var webRoutes = require('./routes/webRoutes');
 var apiRoutes = require('./routes/apiRoutes');
-var ai = require('./ai/brain');
 
 //===========================
 // Define
