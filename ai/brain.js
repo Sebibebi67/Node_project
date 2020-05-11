@@ -27,18 +27,19 @@ module.exports.loading = function(){
     bot.loadFile("./ai/brain/standard.rive");
 }
 
+
+/**
+ * Returns an answer to the message send by a user
+ * @param {String} username 
+ * @param {String} message
+ * @author Tony Chouteau
+ * @author Sébastien HERT
+ */
 var response = function(username, message){
     bot.reply(username, message).then(function (reply){
         console.log(reply);
     });
 }
-
-// bot = test.loading();
-
-
-// module.exports.load = function(){
-//     test.loading();
-// }
 
 
 
