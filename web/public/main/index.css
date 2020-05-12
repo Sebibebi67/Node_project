@@ -78,12 +78,30 @@ html, body {
     outline: none;
     text-decoration: none;
 }
+
+#admin-button {
+    background: linear-gradient(135deg, rgb(252, 62, 49), rgb(221, 31, 126));
+    color: white;
+}
+
+#admin-button:hover{
+    background: linear-gradient(135deg, rgb(235, 54, 41), rgb(202, 26, 114));
+}
+
+#message-button {
+    background: linear-gradient(135deg, #FCCF31, #F55555);
+    color: white;
+}
+
+#message-button:hover{
+    background: linear-gradient(135deg, rgb(218, 178, 34), rgb(223, 70, 70));
+}
  
 #discord-button {
-    background-color: linear-gradient(45deg, #97ABFF, #123597);
-    color: #2c2f33;
+    background: linear-gradient(135deg, #97ABFF, #123597);
+    color: white;
 }
 
 #discord-button:hover{
-    background-color: rgb(98, 120, 199);
+    background: linear-gradient(135deg, #A7BBFF, #2245A7);
 }

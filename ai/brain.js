@@ -22,9 +22,9 @@ module.exports.loading = function(){
     bot = new RiveScript();
 
     //Loading a directory and a file
-    bot.loadDirectory("./ai/brain").then(loadingDone).catch(loadingError);
+    bot.loadDirectory("./ai/brains").then(loadingDone).catch(loadingError);
 
-    bot.loadFile("./ai/brain/standard.rive");
+    bot.loadFile("./ai/brains/standard.rive");
 }
 
 

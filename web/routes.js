@@ -4,6 +4,7 @@ var path = require('path');
 var router = express.Router();
 
 //===============
+// Main
 
 router.route('/')
 .get(function(req, res){ 
@@ -21,6 +22,7 @@ router.route('/index.js')
 })
 
 //===============
+// Message Service
 
 router.route('/message-me')
 .get(function(req, res){ 
@@ -38,6 +40,44 @@ router.route('/message-me.js')
 })
 
 //===============
+// Admin
+
+router.route('/admin')
+.get(function(req, res){ 
+	res.sendFile(path.join(__dirname + '/public/admin/index.html'));
+})
+
+router.route('/admin.css')
+.get(function(req, res){ 
+	res.sendFile(path.join(__dirname + '/public/admin/index.css'));
+})
+
+router.route('/admin.js')
+.get(function(req, res){ 
+	res.sendFile(path.join(__dirname + '/public/admin/index.js'));
+})
+
+
+//===============
+// Discord
+
+router.route('/discord')
+.get(function(req, res){ 
+	res.sendFile(path.join(__dirname + '/public/discord/index.html'));
+})
+
+router.route('/discord.css')
+.get(function(req, res){ 
+	res.sendFile(path.join(__dirname + '/public/discord/index.css'));
+})
+
+router.route('/discord.js')
+.get(function(req, res){ 
+	res.sendFile(path.join(__dirname + '/public/discord/index.js'));
+})
+
+//===============
+// Ressources
 
 router.route('/icon/send')
 .get(function(req, res){ 

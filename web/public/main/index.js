@@ -1,11 +1,7 @@
 
 // Wait for page to load
 window.addEventListener('load', (event) => {
-    if (!window.location.href.includes("#")){
-        titleAnimation();
-    } else {
-        returnAnimation();
-    }
+    titleAnimation();
 });
 
 /*window.addEventListener( "pageshow", function ( event ) {
@@ -34,7 +30,7 @@ function titleAnimation(){
             stopTitleAnimationInterval();
             displaySubtitle();
         }
-    }, 200);
+    }, 100);
 }
 
 function stopTitleAnimationInterval(){
@@ -43,18 +39,7 @@ function stopTitleAnimationInterval(){
 
 function displaySubtitle(){
     let subtitle = document.getElementById("subtitle");
-    subtitle.style.marginTop = "80px";
-    subtitle.style.height = "80px";
+    subtitle.style.marginTop = "100px";
+    subtitle.style.height = "100px";
     subtitle.style.opacity = 1;
-}
-
-function returnAnimation(){
-    title.innerHTML = titleText.replace("Ally","<font color=\"gold\"><b>Ally</b></font>");
-
-    let subtitle = document.getElementById("subtitle");
-    //subtitle.style.transitionDuration = "0s, 0s, 0s";
-
-    setTimeout(function() {
-        displaySubtitle();
-    }, 10);
 }
