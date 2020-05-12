@@ -7,41 +7,41 @@ var router = express.Router();
 
 router.route('/')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/main/index.html'));
+	res.sendFile(path.join(__dirname + '/public/main/index.html'));
 })
 
 router.route('/index.css')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/main/index.css'));
+	res.sendFile(path.join(__dirname + '/public/main/index.css'));
 })
 
 router.route('/index.js')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/main/index.js'));
+	res.sendFile(path.join(__dirname + '/public/main/index.js'));
 })
 
 //===============
 
 router.route('/message-me')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/message-service/index.html'));
+	res.sendFile(path.join(__dirname + '/public/message-service/index.html'));
 })
 
 router.route('/message-me.css')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/message-service/index.css'));
+	res.sendFile(path.join(__dirname + '/public/message-service/index.css'));
 })
 
 router.route('/message-me.js')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/message-service/index.js'));
+	res.sendFile(path.join(__dirname + '/public/message-service/index.js'));
 })
 
 //===============
 
 router.route('/icon/send')
 .get(function(req, res){ 
-	res.sendFile(path.join(__dirname + '/../public/assets/icons/send.png'));
+	res.sendFile(path.join(__dirname + '/public/assets/icons/send.png'));
 })
 
 
@@ -52,10 +52,10 @@ router.route('/icon/send')
 
 //===============
 
-router.route('/circle.js')
+/*router.route('/circle.js')
 .get(function(req, res){ 
 	res.sendFile(path.join(__dirname + '/../public/util/circle.js'));
-})
+})*/
 
 //===============
 

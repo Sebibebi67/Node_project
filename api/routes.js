@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 
-var ai = require('../ai/brain');
+var ai = require('./ai/brain/brain');
 
 var router = express.Router();
 
@@ -14,7 +14,9 @@ ai.loading();
 // Routes
 
 router.route('/message')
-.get(function(req, res){
+.post(function(req, res){
+	console.log(req);
+    console.log('Got body:', req.body);
 	res.json({
 
 	});

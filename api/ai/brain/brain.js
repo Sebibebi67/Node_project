@@ -9,7 +9,6 @@ var bot = undefined;
 // Functions
 
 function loadingDone(files) {
-    console.log("ok");
     bot.sortReplies();
     bot.reply("local-user", "Hello").then((reply) => {
         console.log(reply)

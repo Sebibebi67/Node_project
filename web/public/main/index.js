@@ -6,7 +6,6 @@ window.addEventListener('load', (event) => {
     } else {
         returnAnimation();
     }
-    clickAnimation();
 });
 
 /*window.addEventListener( "pageshow", function ( event ) {
@@ -52,33 +51,10 @@ function displaySubtitle(){
 function returnAnimation(){
     title.innerHTML = titleText.replace("Ally","<font color=\"gold\"><b>Ally</b></font>");
 
-    let body = document.getElementById("body");
-    body.style.transform = "translateX("+(-window.innerWidth)+"px)";
-
     let subtitle = document.getElementById("subtitle");
-    subtitle.style.transitionDuration = "0s, 0s, 0s";
+    //subtitle.style.transitionDuration = "0s, 0s, 0s";
 
     setTimeout(function() {
         displaySubtitle();
-        body.style.transitionDuration = "1s";
-        setTimeout(function() {
-            body.style.transform = "translateX(0)";
-        }, 10);
     }, 10);
-}
-
-function clickAnimation() {
-    let subtitle = document.getElementById("subtitle-link");
-    
-    subtitle.addEventListener('click', (event) => {
-        let body = document.getElementById("body");
-        body.style.transitionDuration = "1s";
-        setTimeout(function() {
-            body.style.transform = "translateX("+(-window.innerWidth)+"px)";
-        }, 10);
-
-        setTimeout(function(){
-            window.location.href = "./message-me";
-        }, 1000)
-    });
 }
