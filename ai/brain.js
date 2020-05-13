@@ -55,10 +55,9 @@ class Brain {
      * @param {String} username 
      * @param {String} message 
      */
-    response(username, message){
-        this.bot.reply(username, message).then(function (reply){
-            console.log(reply);
-        });
+    async response(username, message){
+        var answer = this.bot.reply(username, message);
+        return await answer;
     }
 
     
