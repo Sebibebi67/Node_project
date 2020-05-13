@@ -16,7 +16,9 @@ setTimeout(()=> {bot1.response("local-user", "hello");}, 100);
 // Routes
 
 router.route('/message')
-.get(function(req, res){
+.post(function(req, res){
+	console.log(req);
+    console.log('Got body:', req.body);
 	res.json({
 
 	});

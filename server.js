@@ -4,11 +4,12 @@
 
 // Vendors Modules
 var express = require('express');
-var path = require('path');
+//var path = require('path');
+var bodyParser = require('body-parser');
 
 // Own Modules
-var webRoutes = require('./routes/webRoutes');
-var apiRoutes = require('./routes/apiRoutes');
+var webRoutes = require('./web/routes');
+var apiRoutes = require('./api/routes');
 
 //===========================
 // Define
@@ -17,8 +18,7 @@ var hostname = 'localhost';
 var port = 3000;  
 
 var app = express();
-
-var myRouter = express.Router();
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //===========================
 // Define routes
