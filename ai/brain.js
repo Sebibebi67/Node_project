@@ -1,85 +1,60 @@
 //===========================
 // Import
 
-// var test = require("./test");
 var RiveScript = require('rivescript');
-// var bot = undefined;
 
 //===========================
-// Functions
+// Class
 
-// function loadingDone() {
-//     console.log("Success Loading\n");
-//     bot.sortReplies();
-//     response("local-user", "hello");
-// }
-
-// function loadingError(error) {
-//     console.log("Failed Loading: " + error);
-// }
-
-// module.exports.loading = function(){
-//     bot = new RiveScript();
-
-//     //Loading a directory and a file
-//     bot.loadDirectory("./ai/brain").then(loadingDone).catch(loadingError);
-
-//     bot.loadFile("./ai/brain/standard.rive");
-// }
-
-
-// /**
-//  * Returns an answer to the message send by a user
-//  * @param {String} username 
-//  * @param {String} message
-//  * @author Tony CHOUTEAU
-//  * @author Sébastien HERT
-//  */
-// var response = function(username, message){
-//     bot.reply(username, message).then(function (reply){
-//         console.log(reply);
-//     });
-// }
-
+/**
+ * @classdesc Contains informations about a brain
+ * @author Sébastien HERT
+ */
 class Brain {
-    // bot = undefined;
-    // name = undefined;
-    // repo = undefined;
-    // files = undefined;
     
+    /**
+     * @constructor
+     * @param {String} name the bot name
+     * @param {String} repo the directory name
+     */
     constructor(name, repo, file){
         this.bot = new RiveScript({utf8: true});
         this.name = name;
         this.repo = repo;
-        this.file = file;
         
         this.loading();
     }
     
-    
-    loading(){
-        
-        //Loading a directory and a file
-        
-        // this.bot.loadDirectory(this.repo).then( () => {
-        //     this.loadingDone();
-        // }).catch(this.loadingError);
-        
-        this.bot.loadFile(this.repo+'/'+this.file).then( () => {
+    /**
+     * Loads a directory whitch contains the .rive files
+     */
+    loading(){        
+        this.bot.loadDirectory(this.repo).then( () => {
             this.loadingDone();
         }).catch(this.loadingError);
     }
     
+    /**
+     * Confirms the success of the loading
+     */
     loadingDone(){
         console.log("Success Loading\n");
         this.bot.sortReplies();
-        // this.response("local-user", "hello");
     }
     
+    /**
+     * Catches the potential errors and prints them
+     * @param {String} error 
+     */
     loadingError(error) {
         console.log("Failed Loading: " + error);
     }
     
+    /**
+     * Sends a response to a user
+     * @param {String} username 
+     * @param {String} message 
+     */
     response(username, message){
         this.bot.reply(username, message).then(function (reply){
             console.log(reply);
@@ -88,5 +63,8 @@ class Brain {
 
     
 };
+
+//===========================
+// Export
 
 module.exports = Brain;
