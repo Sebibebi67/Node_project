@@ -53,11 +53,12 @@ class Brain {
     /**
      * Sends a response to a user
      * @param {String} username 
-     * @param {String} message 
+     * @param {String} message
+     * @async
      */
     async response(username, message){
-        var answer = this.bot.reply(username, message);
-        return await answer;
+        var answer = await this.bot.reply(username, message);
+        return answer;
     }
 
     

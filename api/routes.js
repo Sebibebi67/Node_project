@@ -17,7 +17,16 @@ var bot1 = new Brain('Ally', './ai/brains');
 
 router.route('/message')
 .post(function(req, res){
-	var answer = bot1.response("local-user", req).then(() => {
+	bot1.response("local-user", req).then((answer) => {
+		console.log(answer);
+	});
+	// console.log(req);
+    // console.log('Got body:', req.body);
+	res.json({
+
+	});
+}).get(function(req, res){
+	bot1.response("local-user", req).then((answer) => {
 		console.log(answer);
 	});
 	// console.log(req);
