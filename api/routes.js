@@ -17,14 +17,39 @@ var bot1 = new Brain('Ally', './ai/brains');
 
 router.route('/message')
 .post(function(req, res){
-	var answer = bot1.response("local-user", req).then(() => {
-		console.log(answer);
+
+	console.log(req.body)
+	let user = req.body.user;
+	let message = req.body.message;
+
+	var answer = bot1.response(user, message).then((reply) => {
+		console.log(reply)
+		res.json({
+			response : "reply",
+		});
 	});
 	// console.log(req);
     // console.log('Got body:', req.body);
-	res.json({
+	
+}).get(function(req, res){
 
+	console.log(req.body)
+	let user = req.body.user;
+	let message = req.body.message;
+
+	var answer = bot1.response(user, message).then((reply) => {
+		console.log(reply)
+		res.json({
+			response : reply,
+		});
 	});
+	// console.log(req);
+    // console.log('Got body:', req.body);
+	
 })
+
+/*
+
+*/
 
 module.exports = router;
