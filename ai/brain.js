@@ -60,11 +60,14 @@ class Brain {
     loading(){
         
         //Loading a directory and a file
-        this.bot.loadDirectory(this.repo).then( () => {
+        
+        // this.bot.loadDirectory(this.repo).then( () => {
+        //     this.loadingDone();
+        // }).catch(this.loadingError);
+        
+        this.bot.loadFile(this.repo+'/'+this.file).then( () => {
             this.loadingDone();
         }).catch(this.loadingError);
-        
-        this.bot.loadFile(this.repo+'/'+this.file);
     }
     
     loadingDone(){

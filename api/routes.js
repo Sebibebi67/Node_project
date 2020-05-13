@@ -9,7 +9,7 @@ var router = express.Router();
 //===========================
 // Load AI
 
-var bot1 = new Brain('Ally', './ai/brain','standard.rive');
+var bot1 = new Brain('Ally', './ai/brains','standard.rive');
 setTimeout(()=> {bot1.response("local-user", "hello");}, 100);
 
 //===========================
