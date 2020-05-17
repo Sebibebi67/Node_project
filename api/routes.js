@@ -18,38 +18,22 @@ var bot1 = new Brain('Ally', './ai/brains');
 router.route('/message')
 .post(function(req, res){
 
-	console.log(req.body)
 	let user = req.body.user;
 	let message = req.body.message;
 
 	var answer = bot1.response(user, message).then((reply) => {
-		console.log(reply)
-		res.json({
-			response : "reply",
-		});
-	});
-	// console.log(req);
-    // console.log('Got body:', req.body);
-	
-}).get(function(req, res){
-
-	console.log(req.body)
-	let user = req.body.user;
-	let message = req.body.message;
-
-	var answer = bot1.response(user, message).then((reply) => {
-		console.log(reply)
 		res.json({
 			response : reply,
 		});
 	});
-	// console.log(req);
-    // console.log('Got body:', req.body);
-	
 })
 
 /*
-
+fetch('http://localhost:3000/message', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
+    body: encodeURI("user=Tony&message=What's your name"),
+}).then(json => json.json()).then((data) => {console.log(data)});
 */
 
 module.exports = router;

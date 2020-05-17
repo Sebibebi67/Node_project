@@ -60,8 +60,6 @@ class Brain {
         var answer = await this.bot.reply(username, message);
         return answer;
     }
-
-    
 };
 
 //===========================
