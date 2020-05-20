@@ -10,7 +10,6 @@ var bodyParser = require('body-parser');
 
 // Own Modules
 var webRoutes = require('./web/routes');
-
 var apiRoutes = require('./api/routes');
 
 //===========================
@@ -35,6 +34,6 @@ app.use("/api", apiRoutes);
 //===========================
 // Start the server
 
-app.listen(port, hostname, function(){
+app.listen(port, hostname, function() {
 	console.log("To use the API : http://"+ hostname +":"+port+"\n");
 });
