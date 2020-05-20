@@ -29,17 +29,17 @@ router.route("/brains")
 .put(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('Method not alowed');
+	res.send('Method Not Alowed');
 })
 .patch(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('Method not alowed');
+	res.send('Method Not Alowed');
 })
 .delete(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('Method not alowed');
+	res.send('Method Not Alowed');
 })
 
 //=================
@@ -73,7 +73,7 @@ router.route("/brain/:id")
 .post(function(req, res){ // NOT ALOWED
 
 	res.status(405);
-	res.send('Method not alowed');
+	res.send('Method Not Alowed');
 })
 
 //===========================
