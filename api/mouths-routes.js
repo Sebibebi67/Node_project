@@ -10,8 +10,13 @@ var router = express.Router();
 // TEST
 
 // $ cd ./NodeBot
+
 // $ curl -X GET http://localhost:3000/api/mouths
 // $ curl -X POST http://localhost:3000/api/mouths -F "file=@./test/mouth.json"
+
+
+// $ curl -X GET http://localhost:3000/api/mouth/6
+// $ curl -X PUT http://localhost:3000/api/mouth/6 -F "file=@./test/mouth.json"
 
 //===========================
 // Routes
@@ -89,7 +94,6 @@ router.route("/mouths")
 
 router.route("/mouth/:id")
 .get(function(req, res){ // TODO
-
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
 			res.status(404);
@@ -102,13 +106,22 @@ router.route("/mouth/:id")
 	});
 })
 .put(function(req, res){ // TODO
+	if (!req.files || Object.keys(req.files).length === 0) {
+		return res.status(400).send('No files were uploaded.');
+	}
 
-	res.json({
-		response : "mouth",
+	let file = req.files.file;
+	file.mv(PATH+"/"+req.params.id+".json", function(err) {
+		if (err){
+			return res.status(500).send(err);
+		}
+
+		res.send('File uploaded!');
 	});
 })
 .patch(function(req, res){ // TODO
-
+	
+	console.log(req.body)
 	res.json({
 		response : "mouth",
 	});
