@@ -19,7 +19,6 @@ var router = express.Router();
 // $ curl -X PUT http://localhost:3000/api/mouth/6 -F "file=@./test/mouth.json"
 // $ curl -X DELETE http://localhost:3000/api/mouth/6
 // $ curl -X PATCH --data-urlencode "type=discord" http://localhost:3000/api/mouth/6
-// $ curl -X DELETE http://localhost:3000/api/mouth/6
 
 //===========================
 // Routes
@@ -150,6 +149,8 @@ router.route("/mouth/:id")
 				newdata = JSON.stringify(mouth);
 				console.log(newdata)
 				fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
+
+				return res.status(200).send('File uploaded');
 			}
 		});
 	} else {
@@ -160,7 +161,7 @@ router.route("/mouth/:id")
 	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
 			res.status(404);
-			res.send('Resource Not Found');	
+			res.send('Resource Not Found');
 		}
 	});
 })
