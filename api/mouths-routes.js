@@ -53,24 +53,27 @@ router.route("/mouths")
 		if (err) {
 			return console.log('Unable to scan directory: ' + err);
 		} 
-		
-		files.forEach(function (file) {
-			let id = parseInt(file.trim(".json"));
-			if (max < id){
-				max = id;
-			}
-		});
+		else {
 
-		max++;
-
-		let file = req.files.file;
-		file.mv(PATH+"/"+max+".json", function(err) {
-			if (err){
-				return res.status(500).send(err);
-			}
-
-			res.send('File uploaded!');
-		});
+			files.forEach(function (file) {
+				let id = parseInt(file.trim(".json"));
+				if (max < id){
+					max = id;
+				}
+			});
+	
+			max++;
+	
+			let file = req.files.file;
+			file.mv(PATH+"/"+max+".json", function(err) {
+				if (err){
+					return res.status(500).send(err);
+				}
+				else {
+					res.send('File uploaded!');
+				}
+			});
+		}
 	});
 })
 .put(function(req, res){ // Not Allowed
@@ -97,7 +100,7 @@ router.route("/mouth/:id")
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
 			res.status(404);
-			res.send('Ressource Not Found');
+			res.send('Resource Not Found');
 		} else {
 			let mouth = JSON.parse(data);
 		
@@ -113,10 +116,12 @@ router.route("/mouth/:id")
 	let file = req.files.file;
 	file.mv(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
-			return res.status(500).send(err);
+			res.status(404);
+			res.send('Resource Not Found');
 		}
-
-		res.send('File uploaded!');
+		else {
+			res.send('File uploaded!');
+		}
 	});
 })
 .patch(function(req, res){ // TODO
@@ -127,9 +132,14 @@ router.route("/mouth/:id")
 	});
 })
 .delete(function(req, res){ // TODO
-
-	res.json({
-		response : "bot",
+	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
+		if (err){
+			res.status(404);
+			res.send('Resource Not Found');
+		}
+		else {
+			res.send('File deleted!');
+		}
 	});
 })
 .post(function(req, res){ // NOT Allowed
