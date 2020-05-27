@@ -1,0 +1,12 @@
+JSON file for brain
+
+{
+	"id":0,
+	"brains": [
+		1,
+		3
+	],
+	"mouths": [
+		1
+	]
+}
