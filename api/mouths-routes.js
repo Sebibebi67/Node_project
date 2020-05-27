@@ -17,6 +17,9 @@ var router = express.Router();
 
 // $ curl -X GET http://localhost:3000/api/mouth/6
 // $ curl -X PUT http://localhost:3000/api/mouth/6 -F "file=@./test/mouth.json"
+// $ curl -X DELETE http://localhost:3000/api/mouth/6
+// $ curl -X PATCH --data-urlencode "type=discord" http://localhost:3000/api/mouth/6
+// $ curl -X DELETE http://localhost:3000/api/mouth/6
 
 //===========================
 // Routes
@@ -30,20 +33,21 @@ router.route("/mouths")
 		
 		if (err) {
 			return console.log('Unable to scan directory: ' + err);
+		}
+		else {
+			let listOfMouths = [];
+
+			files.forEach(function (file) {
+				listOfMouths.push(parseInt(file.trim(".json")));
+			});
+	
+			res.json(listOfMouths);
 		} 
-		
-		let listOfMouths = [];
-
-		files.forEach(function (file) {
-			listOfMouths.push(parseInt(file.trim(".json")));
-		});
-
-		res.json(listOfMouths);
 	});
 })
 .post(function(req, res){ // TODO
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).send('No files were uploaded.');
+		return res.status(400).send('No files were uploaded');
 	}
 	
 	let max = 0;
@@ -110,7 +114,7 @@ router.route("/mouth/:id")
 })
 .put(function(req, res){ // TODO
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).send('No files were uploaded.');
+		return res.status(400).send('No files were uploaded');
 	}
 
 	let file = req.files.file;
@@ -125,20 +129,38 @@ router.route("/mouth/:id")
 	});
 })
 .patch(function(req, res){ // TODO
-	
-	console.log(req.body)
-	res.json({
-		response : "mouth",
-	});
+	if (req.body.type != undefined || req.body.token != undefined){
+		console.log(req.body.type, req.body.token)
+
+		fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
+			if (err){
+				res.status(404);
+				res.send('Resource Not Found');
+			} else {
+				let mouth = JSON.parse(data);
+				console.log(mouth)
+
+				if (req.body.type != undefined){
+					mouth.type = req.body.type;
+				}
+				if (req.body.token != undefined){
+					mouth.token = req.body.token;
+				}
+
+				newdata = JSON.stringify(mouth);
+				console.log(newdata)
+				fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
+			}
+		});
+	} else {
+		return res.status(400).send('No body sended');
+	}
 })
 .delete(function(req, res){ // TODO
 	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
 			res.status(404);
-			res.send('Resource Not Found');
-		}
-		else {
-			res.send('File deleted!');
+			res.send('Resource Not Found');	
 		}
 	});
 })
