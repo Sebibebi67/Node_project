@@ -29,17 +29,17 @@ router.route("/mouths")
 .put(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('Method Not Alowed');
+	res.send('Method Not Allowed');
 })
 .patch(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('Method Not Alowed');
+	res.send('Method Not Allowed');
 })
 .delete(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('Method Not Alowed');
+	res.send('Method Not Allowed');
 })
 
 //=================
@@ -70,10 +70,10 @@ router.route("/mouth/:id")
 		response : "bot",
 	});
 })
-.post(function(req, res){ // NOT ALOWED
+.post(function(req, res){ // NOT Allowed
 
 	res.status(405);
-	res.send('Method Not Alowed');
+	res.send('Method Not Allowed');
 })
 
 //===========================

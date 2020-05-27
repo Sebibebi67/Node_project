@@ -29,17 +29,17 @@ router.route("/bots")
 .put(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('botMethod Not Alowed');
+	res.send('Method Not Allowed');
 })
 .patch(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('botMethod Not Alowed');
+	res.send('Method Not Allowed');
 })
 .delete(function(req, res){ // Not Allowed
 
 	res.status(405);
-	res.send('botMethod Not Alowed');
+	res.send('Method Not Allowed');
 })
 
 //=================
