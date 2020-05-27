@@ -1,4 +1,4 @@
-JSON file for brain
+JSON file for bot
 
 {
 	"id":0,

@@ -5,6 +5,7 @@
 // Vendors Modules
 var express = require('express');
 var app = express();
+const fileUpload = require('express-fileupload');
 //var path = require('path');
 var bodyParser = require('body-parser');
 
@@ -12,12 +13,14 @@ var bodyParser = require('body-parser');
 var webRoutes = require('./web/routes');
 var apiRoutes = require('./api/routes');
 
+
 //===========================
 // Define
 
 var hostname = 'localhost'; 
 var port = 3000;  
 
+app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from

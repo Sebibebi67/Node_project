@@ -1,0 +1,5 @@
+JSON file for mouth
+
+"id"
+"type" : "discord" / "web"
+"token" : undefined / "discord-token"
