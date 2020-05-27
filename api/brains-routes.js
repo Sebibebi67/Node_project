@@ -16,12 +16,12 @@ var router = express.Router();
 
 // $ cd ./NodeBot
 
-// $ curl -X GET http://localhost:3000/api/brains
-// $ curl -X POST http://localhost:3000/api/brains -F "file=@./test/brain.rive"
+// $ curl -X GET http://localhost:3000/api/brains | python -m json.tool
+// $ curl -X POST http://localhost:3000/api/brains -F "file=@./test/brain.rive" && echo
 
 
-// $ curl -X GET http://localhost:3000/api/brain/6
-// $ curl -X PUT http://localhost:3000/api/brain/6 -F "file=@./test/brain.rive"
+// $ curl -X GET http://localhost:3000/api/brain/6 | python -m json.tool
+// $ curl -X PUT http://localhost:3000/api/brain/6 -F "file=@./test/brain.rive" && echo
 
 //===========================
 // Routes
@@ -58,7 +58,7 @@ router.route("/brains")
 		
 		if (err) {
 			return console.log('Unable to scan directory: ' + err);
-		} 
+		}
 		
 		files.forEach(function (file) {
 			let id = parseInt(file.trim(".rive"));
@@ -132,8 +132,13 @@ router.route("/brain/:id")
 })
 .delete(function(req, res){ // TODO
 
-	res.json({
-		response : "bot",
+	fs.unlink(PATH+"/"+req.params.id+".rive", function(err) {
+		if (err){
+			res.status(404);
+			res.send('Resource Not Found');
+		} else {
+			return res.status(200).send("Resource deleted");
+		}
 	});
 })
 .post(function(req, res){ // NOT Allowed
