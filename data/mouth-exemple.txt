@@ -1,5 +1,0 @@
-JSON file for brain
-
-"type" : "discord" / "web"
-"token" : undefined / "discord-token"
-"web" : true / false
