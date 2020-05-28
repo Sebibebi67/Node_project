@@ -11,15 +11,14 @@ var router = express.Router();
 
 // $ cd ./NodeBot
 
-// $ curl -X GET http://localhost:3000/api/mouths
-// $ curl -X POST http://localhost:3000/api/mouths -F "file=@./test/mouth.json"
+// $ curl -X GET http://localhost:3000/api/mouths | python -m json.tool
+// $ curl -X POST http://localhost:3000/api/mouths -F "file=@./tests/mouth.json" && echo
 
 
-// $ curl -X GET http://localhost:3000/api/mouth/6
-// $ curl -X PUT http://localhost:3000/api/mouth/6 -F "file=@./test/mouth.json"
-// $ curl -X DELETE http://localhost:3000/api/mouth/6
-// $ curl -X PATCH --data-urlencode "type=discord" http://localhost:3000/api/mouth/6
-// $ curl -X DELETE http://localhost:3000/api/mouth/6
+// $ curl -X GET http://localhost:3000/api/mouth/6 | python -m json.tool
+// $ curl -X PUT http://localhost:3000/api/mouth/6 -F "file=@./tests/mouth.json" && echo
+// $ curl -X DELETE http://localhost:3000/api/mouth/6 && echo
+// $ curl -X PATCH --data-urlencode "type=discord" --data-urlencode "token=discord-token" http://localhost:3000/api/mouth/6 && echo
 
 //===========================
 // Routes
@@ -38,7 +37,11 @@ router.route("/mouths")
 			let listOfMouths = [];
 
 			files.forEach(function (file) {
-				listOfMouths.push(parseInt(file.trim(".json")));
+				let f = fs.readFileSync(PATH+"/"+file)
+			
+				let mouth = JSON.parse(f);
+			
+				listOfMouths.push(mouth);
 			});
 	
 			res.json(listOfMouths);
@@ -129,7 +132,7 @@ router.route("/mouth/:id")
 	});
 })
 .patch(function(req, res){ // TODO
-	if (req.body.type != undefined || req.body.token != undefined){
+	if (req.body.type != undefined || req.body.token != undefined || req.body.link != undefined){
 		console.log(req.body.type, req.body.token)
 
 		fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
@@ -146,10 +149,15 @@ router.route("/mouth/:id")
 				if (req.body.token != undefined){
 					mouth.token = req.body.token;
 				}
+				if (req.body.link != undefined){
+					mouth.link = req.body.link;
+				}
 
 				newdata = JSON.stringify(mouth);
 				console.log(newdata)
 				fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
+
+				return res.status(200).send('File uploaded');
 			}
 		});
 	} else {
@@ -160,7 +168,9 @@ router.route("/mouth/:id")
 	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
 			res.status(404);
-			res.send('Resource Not Found');	
+			res.send('Resource Not Found');
+		} else {
+			return res.status(200).send("Resource deleted");
 		}
 	});
 })
