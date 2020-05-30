@@ -135,7 +135,7 @@ title "=" "Testing REST API"
 
 while read line
 do
-	if [[ "$line" != "" && "${line::1}" != "#" ]]; then
+	if [[ "${line::1}" == "c" ]]; then
 	
 		command=$(echo $line | cut -d';' -f1 )
 
