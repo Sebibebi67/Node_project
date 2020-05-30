@@ -22,14 +22,15 @@ router.route("/mouths")
 			});
 		}
 
-		let listOfMouths = [];
+		let listOfMouths = {};
 
 		files.forEach(function (file) {
 			let f = fs.readFileSync(PATH+"/"+file)
+			let id = parseInt(file.trim(".json"));
 		
 			let mouth = JSON.parse(f);
 		
-			listOfMouths.push(mouth);
+			listOfMouths[id] = mouth;
 		});
 
 		return res.status(200).json(listOfMouths);
@@ -127,10 +128,10 @@ router.route("/mouth/:id")
 		});
 	}
 
-	let isAlready = false;
+	let isAlready = true;
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {
-		if (!err){
-			isAlready = true;
+		if (err){
+			isAlready = false;
 		}
 	});
 
