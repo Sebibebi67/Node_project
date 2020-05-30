@@ -28,35 +28,35 @@
 #************************************ Mouths ************************************#
 
 # GET request on empty directory then POST a mouth and GET it
-curl -X GET http://localhost:3000/api/mouths ; []
-curl -X POST http://localhost:3000/api/mouths ; No files were uploaded
-curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth.json ; File uploaded!
-curl -X GET http://localhost:3000/api/mouths ; Printing a list of 1 mouth in json format
+curl -X GET http://localhost:3000/api/mouths ; {} ; 100
+curl -X POST http://localhost:3000/api/mouths ; {"error":"No files were uploaded"}
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json ; {"success":"Created","location":"/api/mouth/1"}
+curl -X GET http://localhost:3000/api/mouths ; {"1":{"type":"web","token":null,"link":null}}
 
 # Bad requests because methods are not allowed
-curl -X PUT http://localhost:3000/api/mouths ; Method Not Allowed
-curl -X PATCH http://localhost:3000/api/mouths ; Method Not Allowed
-curl -X DELETE http://localhost:3000/api/mouths ; Method Not Allowed
+curl -X PUT http://localhost:3000/api/mouths ; {"error":"Method Not Allowed"}
+curl -X PATCH http://localhost:3000/api/mouths ; {"error":"Method Not Allowed"}
+curl -X DELETE http://localhost:3000/api/mouths ; {"error":"Method Not Allowed"}
 
 # GET request on non-existing then existing mouths
-curl -X GET http://localhost:3000/api/mouth/6 ; Resource Not Found
-curl -X GET http://localhost:3000/api/mouth/1 ; Printing mouth1 in json format
+curl -X GET http://localhost:3000/api/mouth/6 ; {"error":"Not Found"}
+curl -X GET http://localhost:3000/api/mouth/1 ; {"type":"web","token":null,"link":null}
 
 # PUT request on non-existing then existing mouths
-curl -X PUT http://localhost:3000/api/mouth/2 -F file=@./tests/mouth.json ; File uploaded!
-curl -X PUT http://localhost:3000/api/mouth/1 -F file=@./tests/mouth.json ; File uploaded!
+curl -X PUT http://localhost:3000/api/mouth/2 -F file=@./tests/mouth_web.json ; {"success":"Created"}
+curl -X PUT http://localhost:3000/api/mouth/1 -F file=@./tests/mouth_discord.json ; {"success":"Updated"}
 
 # PATCH on non-existing then existing mouths, with and without body
-curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/6 ; Resource Not Found
-curl -X PATCH http://localhost:3000/api/mouth/1 ; No body sended
-curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/1 ; File uploaded
+curl -X PATCH --data-urlencode type=discord --data-urlencode token=null http://localhost:3000/api/mouth/6 ; {"error":"Not Found"}
+curl -X PATCH http://localhost:3000/api/mouth/1 ; {"error":"No body sended"}
+curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/1 ; {"success":"Updated"}
 
 #DELETE on non-existing then existing mouths
-curl -X DELETE http://localhost:3000/api/mouth/6
-curl -X DELETE http://localhost:3000/api/mouth/2
+curl -X DELETE http://localhost:3000/api/mouth/6 ; {"error":"Not Found"}
+curl -X DELETE http://localhost:3000/api/mouth/2 ; {"success":"Deleted"}
 
 #POST is not allowed
-curl -X POST http://localhost:3000/api/mouth -F file=@./tests/mouth.json
+curl -X POST http://localhost:3000/api/mouth/6 -F file=@./tests/mouth_web.json ; {"error":"Method Not Allowed"}
 
 #--------------------------------------------------------------------------------#
 
