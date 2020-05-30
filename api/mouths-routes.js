@@ -153,38 +153,46 @@ router.route("/mouth/:id")
 	});
 })
 .patch(function(req, res){ // TODO
-	if (req.body.type != undefined || req.body.token != undefined || req.body.link != undefined){
-
-		fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
-			if (err){
-				return res.status(404).json({
-					"error" : 'Not Found'
-				});
-			}
-
-			let mouth = JSON.parse(data);
-
-			if (req.body.type != undefined){
-				mouth.type = req.body.type;
-			}
-			if (req.body.token != undefined){
-				mouth.token = req.body.token;
-			}
-			if (req.body.link != undefined){
-				mouth.link = req.body.link;
-			}
-
-			newdata = JSON.stringify(mouth);
-			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
-
-			return res.status(200).json({
-				"success" : "Updated",
+	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
+		if (err){
+			return res.status(404).json({
+				"error": 'Not Found'
 			});
-		});
-	}
+		}
+		
+		if (req.body.type != undefined || req.body.token != undefined || req.body.link != undefined){
 
-	return res.status(400).json({
-		"error": "No body sended"
+			fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
+				if (err){
+					return res.status(404).json({
+						"error" : 'Not Found'
+					});
+				}
+	
+				let mouth = JSON.parse(data);
+	
+				if (req.body.type != undefined){
+					mouth.type = req.body.type;
+				}
+				if (req.body.token != undefined){
+					mouth.token = req.body.token;
+				}
+				if (req.body.link != undefined){
+					mouth.link = req.body.link;
+				}
+	
+				newdata = JSON.stringify(mouth);
+				fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
+	
+				return res.status(200).json({
+					"success" : "Updated",
+				});
+			});
+		}
+	
+		return res.status(400).json({
+			"error": "No body sended"
+		});
 	});
 })
 .delete(function(req, res){ // TODO
