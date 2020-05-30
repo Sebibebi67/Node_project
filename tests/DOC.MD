@@ -17,11 +17,6 @@ Repsonse :
 200 - OK \
 Json containing all mouths
 
-*OR*
-
-204 - No Content \
-Empty Json
-
 ---
 
 #### POST
