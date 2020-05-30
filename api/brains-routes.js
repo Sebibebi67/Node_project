@@ -83,7 +83,7 @@ router.route("/brains")
 		file.mv(PATH+"/"+max+".rive", function(err) {
 			if (err){
 				return res.status(500).json({					// 500 - Internal Server Error
-					"error" : "Internal Server Srror"
+					"error" : "Internal Server Error"
 				});
 			}
 			
