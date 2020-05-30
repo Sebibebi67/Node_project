@@ -49,12 +49,12 @@ router.route("/brains")
 })
 .post(function(req, res){ 										// ====POST====
 	if (!req.files || Object.keys(req.files).length === 0
-		|| !req.files.file || Object.keys(req.files.file).length === 0) {
+		|| req.files.file == undefined) {
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "No File"
 		});
 	} else if (Object.keys(req.files).length > 1 
-				|| Object.keys(req.files.file).length > 1 ) {
+				|| Array.isArray(req.files.file)) {
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "Too Many Files"
 		});
@@ -133,12 +133,12 @@ router.route("/brain/:id")
 })
 .put(function(req, res){ 										// ====PUT====
 	if (!req.files || Object.keys(req.files).length === 0
-		|| !req.files.file || Object.keys(req.files.file).length === 0) {
+		|| req.files.file == undefined) {
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "No File"
 		});
 	} else if (Object.keys(req.files).length > 1 
-				|| Object.keys(req.files.file).length > 1 ) {
+				|| Array.isArray(req.files.file)) {
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "Too Many Files"
 		});
