@@ -141,18 +141,31 @@ do
 
 		expected=$(echo $(echo $line | cut -d';' -f2 ))
 
+		statusExpected=$(echo $(echo $line | cut -d';' -f3))
+
+		fullOutput=${command/-X/'--write-out %{http_code} --silent -X'}
+		
+		output=$($fullOutput)
+
+
+		status=${output: -3}
+		output=${output:0: -3}
+
 		title "-" "Testing Command Line $nbLine"
 
 		echo -e "\e[34mCommand Tested :\e[0m $command\n"
 
-		echo -e "\e[34mOutput expected :\e[0m $expected\n"
+		echo -e "\e[34mOutput expected :\e[0m Status : $statusExpected ; $expected\n"
 
-		echo -e -n "\e[34mOutput : \e[0m" && $command && echo -e "\n"
+		if [[ $status == $statusExpected ]]; then
+			echo -e -n "\e[34mOutput : \e[0m\e[32mStatus : $status ; $output\e[0m\n\n"
+		else
+			echo -e -n "\e[34mOutput : \e[0m\e[31mStatus : $status ; $output\e[0m\n\n"
+		fi
 
 	fi
 	(( nbLine++))
 done < $file
-
 
 title End
 
