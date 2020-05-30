@@ -13,12 +13,12 @@ var router = express.Router();
 // Mouths Collection
 
 router.route("/mouths")
-.get(function(req, res){ // GET
+.get(function(req, res){ 										// GET
 	fs.readdir(PATH, function (err, files) {
 		
-		if (err) {
+		if (err) {												// 500 - Internal Server Error
 			return res.status(500).json({
-				"error" : "Internal server error"
+				"error" : "Internal Server Error"
 			});
 		}
 
@@ -33,17 +33,17 @@ router.route("/mouths")
 			listOfMouths[id] = mouth;
 		});
 
-		return res.status(200).json(listOfMouths);
+		return res.status(200).json(listOfMouths);				// 200 - OK
 	});
 })
 .post(function(req, res){ // TODO
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).json({
-			"error" : "No files were uploaded"
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "No File"
 		});
 	} else if (Object.keys(req.files).length > 1) {
-		return res.status(400).json({
-			"error" : "Too many files were uploaded"
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "Too Many Files"
 		});
 	}
 	
@@ -52,8 +52,8 @@ router.route("/mouths")
 	fs.readdir(PATH, function (err, files) {
 		
 		if (err) {
-			return res.status(500).json({
-				"error" : "Internal server error"
+			return res.status(500).json({						// 500 - Internal Server Error
+				"error" : "Internal Server Error"
 			});
 		} 
 
@@ -69,13 +69,13 @@ router.route("/mouths")
 		let file = req.files.file;
 		file.mv(PATH+"/"+max+".json", function(err) {
 			if (err){
-				return res.status(500).json({
-					"error" : "Internal server error"
+				return res.status(500).json({					// 500 - Internal Server Error
+					"error" : "Internal Server Srror"
 				});
 			}
 
 			res.setHeader('Location', "/api/mouth/"+max)
-			return res.status(201).json({
+			return res.status(201).json({						// 201 - Created
 				"success" : "Created",
 				"location" : "/api/mouth/"+max,
 			});
@@ -84,19 +84,19 @@ router.route("/mouths")
 })
 .put(function(req, res){ // Not Allowed
 
-	return res.status(405).json({
+	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })
 .patch(function(req, res){ // Not Allowed
 
-	return res.status(405).json({
+	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })
 .delete(function(req, res){ // Not Allowed
 
-	return res.status(405).json({
+	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })
@@ -108,7 +108,7 @@ router.route("/mouth/:id")
 .get(function(req, res){ // TODO
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
-			return res.status(404).json({
+			return res.status(404).json({						// 404 - Not Found
 				"error": 'Not Found'
 			});
 		}
@@ -119,12 +119,12 @@ router.route("/mouth/:id")
 })
 .put(function(req, res){ // TODO
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).json({
-			"error" : "No files were uploaded"
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "No File"
 		});
 	} else if (Object.keys(req.files).length > 1) {
-		return res.status(400).json({
-			"error" : "Too many files were uploaded"
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "Too Many Files"
 		});
 	}
 
@@ -138,16 +138,16 @@ router.route("/mouth/:id")
 	let file = req.files.file;
 	file.mv(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
-			return res.status(404).json({
+			return res.status(404).json({						// 404 - Not Found
 				"error": 'Not Found'
 			});
 		}
 		if (isAlready){
-			return res.status(200).json({
+			return res.status(200).json({						// 200 - OK
 				"success" : "Updated",
 			});
 		}
-		return res.status(201).json({
+		return res.status(201).json({							// 201 - Created
 			"success" : "Created",
 		});
 	});
@@ -155,12 +155,14 @@ router.route("/mouth/:id")
 .patch(function(req, res){ // TODO
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
-			return res.status(404).json({
+			return res.status(404).json({						// 404 - Not Found
 				"error": 'Not Found'
 			});
 		}
 
-		if (req.body.type != undefined || req.body.token != undefined || req.body.link != undefined){
+		if (req.body.type != undefined 
+			|| req.body.token != undefined 
+			|| req.body.link != undefined){
 	
 			let mouth = JSON.parse(data);
 
@@ -177,12 +179,12 @@ router.route("/mouth/:id")
 			newdata = JSON.stringify(mouth);
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
 
-			return res.status(200).json({
+			return res.status(200).json({						// 200 - OK
 				"success" : "Updated",
 			});
 		}
 
-		return res.status(400).json({
+		return res.status(400).json({							// 200 - Bad request
 			"error" : "No body sended",
 		});
 	});
@@ -190,18 +192,18 @@ router.route("/mouth/:id")
 .delete(function(req, res){ // TODO
 	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
-			return res.status(404).json({
+			return res.status(404).json({						// 404 - Not Found
 				"error": "Not Found"
 			});
 		}
-		return res.status(200).json({
+		return res.status(200).json({{							// 200 - OK
 			"success": "Deleted"
 		});
 	});
 })
 .post(function(req, res){ // NOT Allowed
 
-	return res.status(405).json({
+	return res.status(405).json({								// 400 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })
