@@ -30,7 +30,7 @@
 # GET request on empty directory then POST a mouth and GET it
 curl -X GET http://localhost:3000/api/mouths ; {} ; 200
 curl -X POST http://localhost:3000/api/mouths ; {"error":"No File"} ; 400
-curl -X POST http://localhost:3000/api/mouths -F filegz=@./tests/mouth_web.json -F fileeg=@./tests/mouth_web.json ; {"error":"Too Many Files"} ; 400
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json -F file2=@./tests/mouth_web.json ; {"error":"Too Many Files"} ; 400
 curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
 curl -X GET http://localhost:3000/api/mouths ; {"1":{"type":"web","token":null,"link":null}} ; 200
 
