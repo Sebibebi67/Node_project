@@ -141,7 +141,7 @@ do
 
 		expected=$(echo $(echo $line | cut -d';' -f2 ))
 
-		statusExpected=$(echo $(echo $line | cut -d';' -f3))
+		statusExpected=$(echo $(echo $line | cut -d';' -f3 | sed 's/[^0-9]//g'))
 
 		fullOutput=${command/-X/'--write-out %{http_code} --silent -X'}
 		
