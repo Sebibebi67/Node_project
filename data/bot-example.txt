@@ -1,7 +1,7 @@
 JSON file for bot
 
 {
-	"id":0,
+	"state" : true,
 	"brains": [
 		1,
 		3
