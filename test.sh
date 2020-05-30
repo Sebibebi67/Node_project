@@ -6,7 +6,8 @@
 
 #--------------------------------- Description ----------------------------------#
 #
-#
+# This script tests the REST API and some commands you could use on it.
+# It tests all the command written in request.txt
 #
 #--------------------------------------------------------------------------------#
 
@@ -20,7 +21,7 @@
 
 #----------------------------------- Options ------------------------------------#
 #
-# Option : Description
+# There isn't any option for this script
 #
 #--------------------------------------------------------------------------------#
 
@@ -44,78 +45,66 @@ nbLine=1
 #---------------------------------- Functions -----------------------------------#
 
 title(){
+	###
+	# Description : Displays a Title in the terminal
+	#
+	# Input :
+	# - The separator (=,-,*, etc)
+	# - The title to display as a String
+	#
+	# Output :
+	# - Display in a shell terminal
+	#
+	# Authors :
+	# - Sébastien HERT
+	###
+
 	if [ $# -eq 0 ]; then
-		param="Title"
-	else
-		param=$*
-	fi
+        param="Titre"
+        id="="
+    elif [ $# -eq 1 ]; then
+        param=$1
+        id="="
+    elif [ $# -eq 2 ]; then
+        param=$2
+        id=$1
+    else
+        echo error
+    fi
 
-	lenParam=${#param}
-	# echo $lenParam
-	lenEq1=$(( ($lenTitle-$lenParam)/2 -1 ))
-	lenEq2=$(( $lenTitle-$lenParam-$lenEq1-2 ))
-	title=""
-	for (( i = 0; i < $lenEq1; i++ )); do
-		title="${title}="
-	done
-	title="${title} $param "
-	for (( i = 0; i < $lenEq2; i++ )); do
-		title="${title}="
-	done
+    lenParam=${#param}
+    lenEq1=$(( ($lenTitle-$lenParam)/2 -1 ))
+    lenEq2=$(( $lenTitle-$lenParam-$lenEq1-2 ))
+    title=""
+    for (( i = 0; i < $lenEq1; i++ )); do
+        title="${title}$id"
+    done
+    title="${title} $param "
+    for (( i = 0; i < $lenEq2; i++ )); do
+        title="${title}$id"
+    done
 
-	echo -e "\e[35m\e[1m${title}\n\e[0m"
+    echo -e "\e[35m\e[1m${title}\n\e[0m"
 }
-
-subtitle(){
-		if [ $# -eq 0 ]; then
-		param="Subtitle"
-	else
-		param=$*
-	fi
-
-	lenParam=${#param}
-	# echo $lenParam
-	lenEq1=$(( ($lenTitle-$lenParam)/2 -1 ))
-	lenEq2=$(( $lenTitle-$lenParam-$lenEq1-2 ))
-	title=""
-	for (( i = 0; i < $lenEq1; i++ )); do
-		title="${title}-"
-	done
-	title="${title} $param "
-	for (( i = 0; i < $lenEq2; i++ )); do
-		title="${title}-"
-	done
-
-	echo -e "\e[93m${title}\n\e[0m"
-}
-
-commandTested(){
-	echo -e "\e[34mCommand Tested :\e[0m $*\n"
-}
-
-expected(){
-	echo -e "\e[34mOutput expected :\e[0m $*\n"
-}
-
-output(){
-	echo -e "\e[34mOutput :\e[0m $($*)"
-	echo -e ""
-}
-
 
 checkEndOfFile(){
+	###
+	# Description : Checks if a file finishes with an empty line
+	#
+	# Input :
+	# - The file
+	#
+	# Output :
+	# - None, but adding a new line if its necessary
+	#
+	# Authors :
+	# - Sébastien HERT
+	###
+	
 	end=$( tail -n 1 $file )
 	if [[ $end != "" ]]; then
 		echo "" >> $file
 	fi
-}
-
-error(){
-	echo -e "\e[31mError\e[0m\n"
-}
-
-success(){
-	echo -e "\e[32mSuccess\e[0m\n"
 }
 
 
@@ -128,31 +117,23 @@ set -e
 
 checkEndOfFile
 
-title Testing REST API
+title "=" "Testing REST API"
 
 
 while read line
 do
-	if [[ "$line" != "" ]]; then
+	if [[ "$line" != "" && "${line::1}" != "#" ]]; then
+	
 		command=$(echo $line | cut -d';' -f1 )
 		expected=$(echo $(echo $line | cut -d';' -f2 ))
 
-		executedCommand=$(echo $($command))
+		title "-" "Testing Command Line $nbLine"
 
+		echo -e "\e[34mCommand Tested :\e[0m $command\n"
 
-		subtitle Testing Command Line $nbLine
+		echo -e "\e[34mOutput expected :\e[0m $expected\n"
 
-		commandTested $command
-
-		expected $expected
-
-		output $command
-
-		if [[ "$expected" == "$executedCommand" ]]; then
-			success
-		else
-			error
-		fi
+		echo -e "\e[34mOutput :\e[0m $($command)\n"
 
 	fi
 	(( nbLine++))
