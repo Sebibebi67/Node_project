@@ -3,7 +3,7 @@
 
 #--------------------------------- Description ----------------------------------#
 #
-# This file contains the request used in the shell script test.sh
+# This file contains the requests used in the shell script test.sh
 #
 #--------------------------------------------------------------------------------#
 
@@ -23,12 +23,40 @@
 #--------------------------------------------------------------------------------#
 
 
-#---------------------------------- Requests ------------------------------------#
+#----------------------------------- Requests -----------------------------------#
 
-echo 1 ; 1
-echo 2 ; 5
-#testToto
-echo 3 ; 1
+#************************************ Mouths ************************************#
+
+# GET request on empty directory then POST a mouth and GET it
+curl -X GET http://localhost:3000/api/mouths ; []
+curl -X POST http://localhost:3000/api/mouths ; No files were uploaded
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth.json ; File uploaded!
+curl -X GET http://localhost:3000/api/mouths ; Printing a list of 1 mouth in json format
+
+# Bad requests because methods are not allowed
+curl -X PUT http://localhost:3000/api/mouths ; Method Not Allowed
+curl -X PATCH http://localhost:3000/api/mouths ; Method Not Allowed
+curl -X DELETE http://localhost:3000/api/mouths ; Method Not Allowed
+
+# GET request on non-existing then existing mouths
+curl -X GET http://localhost:3000/api/mouth/6 ; Resource Not Found
+curl -X GET http://localhost:3000/api/mouth/1 ; Printing mouth1 in json format
+
+# PUT request on non-existing then existing mouths
+curl -X PUT http://localhost:3000/api/mouth/2 -F file=@./tests/mouth.json ; File uploaded!
+curl -X PUT http://localhost:3000/api/mouth/1 -F file=@./tests/mouth.json ; File uploaded!
+
+# PATCH on non-existing then existing mouths, with and without body
+curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/6 ; Resource Not Found
+curl -X PATCH http://localhost:3000/api/mouth/1 ; No body sended
+curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/1 ; File uploaded
+
+#DELETE on non-existing then existing mouths
+curl -X DELETE http://localhost:3000/api/mouth/6
+curl -X DELETE http://localhost:3000/api/mouth/2
+
+#POST is not allowed
+curl -X POST http://localhost:3000/api/mouth -F file=@./tests/mouth.json
 
 #--------------------------------------------------------------------------------#
 

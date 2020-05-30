@@ -100,11 +100,23 @@ checkEndOfFile(){
 	# Authors :
 	# - Sébastien HERT
 	###
-	
+
 	end=$( tail -n 1 $file )
 	if [[ $end != "" ]]; then
 		echo "" >> $file
 	fi
+}
+
+erase(){
+	directories="./data/mouths"
+	for d in $directories; do
+		if [[ -d $d ]]; then
+			rm -r $d
+		fi
+		if [[ ! -d $d ]]; then
+			mkdir $d
+		fi
+	done
 }
 
 
@@ -117,14 +129,16 @@ set -e
 
 checkEndOfFile
 
-title "=" "Testing REST API"
+erase
 
+title "=" "Testing REST API"
 
 while read line
 do
 	if [[ "$line" != "" && "${line::1}" != "#" ]]; then
 	
 		command=$(echo $line | cut -d';' -f1 )
+
 		expected=$(echo $(echo $line | cut -d';' -f2 ))
 
 		title "-" "Testing Command Line $nbLine"
@@ -133,7 +147,7 @@ do
 
 		echo -e "\e[34mOutput expected :\e[0m $expected\n"
 
-		echo -e "\e[34mOutput :\e[0m $($command)\n"
+		echo -e -n "\e[34mOutput : \e[0m" && $command && echo -e "\n"
 
 	fi
 	(( nbLine++))
