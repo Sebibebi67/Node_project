@@ -13,7 +13,7 @@ var router = express.Router();
 // Mouths Collection
 
 router.route("/mouths")
-.get(function(req, res){ 										// GET
+.get(function(req, res){ 										// ====GET====
 	fs.readdir(PATH, function (err, files) {
 		
 		if (err) {												// 500 - Internal Server Error
@@ -36,7 +36,7 @@ router.route("/mouths")
 		return res.status(200).json(listOfMouths);				// 200 - OK
 	});
 })
-.post(function(req, res){ // TODO
+.post(function(req, res){ 										// ====POST====
 	if (!req.files || Object.keys(req.files).length === 0) {
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "No File"
@@ -82,19 +82,19 @@ router.route("/mouths")
 		});
 	});
 })
-.put(function(req, res){ // Not Allowed
+.put(function(req, res){ 										// ====PUT====
 
 	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })
-.patch(function(req, res){ // Not Allowed
+.patch(function(req, res){ 										// ====PATCH====
 
 	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })
-.delete(function(req, res){ // Not Allowed
+.delete(function(req, res){ 									// ====DELETE====
 
 	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
@@ -105,7 +105,7 @@ router.route("/mouths")
 // Mouth ID
 
 router.route("/mouth/:id")
-.get(function(req, res){ // TODO
+.get(function(req, res){ 										// ====GET====
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
@@ -117,7 +117,7 @@ router.route("/mouth/:id")
 		return res.status(200).json(mouth);
 	});
 })
-.put(function(req, res){ // TODO
+.put(function(req, res){ 										// ====PUT====
 	if (!req.files || Object.keys(req.files).length === 0) {
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "No File"
@@ -152,7 +152,7 @@ router.route("/mouth/:id")
 		});
 	});
 })
-.patch(function(req, res){ // TODO
+.patch(function(req, res){ 										// ====PATCH====
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
@@ -189,7 +189,7 @@ router.route("/mouth/:id")
 		});
 	});
 })
-.delete(function(req, res){ // TODO
+.delete(function(req, res){ 									// ====DELETE====
 	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
@@ -201,7 +201,7 @@ router.route("/mouth/:id")
 		});
 	});
 })
-.post(function(req, res){ // NOT Allowed
+.post(function(req, res){ 										// ====POST====
 
 	return res.status(405).json({								// 400 - Method Not Allowed
 		"error": 'Method Not Allowed'

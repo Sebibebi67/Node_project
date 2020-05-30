@@ -9,7 +9,6 @@ var router = express.Router();
 //===========================
 // Load AI
 
-// setTimeout(()=> {bot1.response("local-user", "hello");}, 100);
 
 //===========================
 // TEST
@@ -30,11 +29,13 @@ var router = express.Router();
 // brains Collection
 
 router.route("/brains")
-.get(function(req, res){
+.get(function(req, res){ 										// ====GET====
 	fs.readdir(PATH, function (err, files) {
 		
-		if (err) {
-			return console.log('Unable to scan directory: ' + err);
+		if (err) {												// 500 - Internal Server Error
+			return res.status(500).json({
+				"error" : "Internal Server Error"
+			});
 		} 
 		
 		let listOfBrains = [];
@@ -43,13 +44,19 @@ router.route("/brains")
 			listOfBrains.push(parseInt(file.trim(".rive")));
 		});
 
-		res.json(listOfBrains);
+		return res.status(200).json(listOfBrains);				// 200 - OK
 	});
 })
-.post(function(req, res){ // TODO
+.post(function(req, res){ 										// ====POST====
 
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).send('No files were uploaded.');
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "No File"
+		});
+	} else if (Object.keys(req.files).length > 1) {
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "Too Many Files"
+		});
 	}
 	
 	let max = 0;
@@ -57,100 +64,132 @@ router.route("/brains")
 	fs.readdir(PATH, function (err, files) {
 		
 		if (err) {
-			return console.log('Unable to scan directory: ' + err);
-		}
-		else{
-
-			files.forEach(function (file) {
-				let id = parseInt(file.trim(".rive"));
-				if (max < id){
-					max = id;
-				}
+			return res.status(500).json({						// 500 - Internal Server Error
+				"error" : "Internal Server Error"
 			});
-	
-			max++;
-	
-			let file = req.files.file;
-			file.mv(PATH+"/"+max+".rive", function(err) {
-				if (err){
-					return res.status(500).send(err);
-				}
-				else{
-					res.send('File uploaded!');
+		} 
+		
+		files.forEach(function (file) {
+			let id = parseInt(file.trim(".rive"));
+			if (max < id){
+				max = id;
+			}
+		});
 
-				}
-	
+		max++;
+
+		let file = req.files.file;
+		file.mv(PATH+"/"+max+".rive", function(err) {
+			if (err){
+				return res.status(500).json({					// 500 - Internal Server Error
+					"error" : "Internal Server Srror"
+				});
+			}
+			
+			res.setHeader('Location', "/api/brain/"+max)
+			return res.status(201).json({						// 201 - Created
+				"success" : "Created",
+				"location" : "/api/brain/"+max,
 			});
-		}
+
+		});
 		
 	});
 })
-.put(function(req, res){ // Not Allowed
+.put(function(req, res){ 										// ====PUT====
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({								// 405 - Method Not Allowed
+		"error": 'Method Not Allowed'
+	});
 })
-.patch(function(req, res){ // Not Allowed
+.patch(function(req, res){ 										// ====PATCH====
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({								// 405 - Method Not Allowed
+		"error": 'Method Not Allowed'
+	});
 })
-.delete(function(req, res){ // Not Allowed
+.delete(function(req, res){ 									// ====DELETE====
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({								// 405 - Method Not Allowed
+		"error": 'Method Not Allowed'
+	});
 })
 
 //=================
 // brain ID
 
 router.route("/brain/:id")
-.get(function(req, res){
+.get(function(req, res){ 										// ====GET====
 	fs.readFile(PATH+"/"+req.params.id+'.rive', (err, data) => {
 		if (err){
-			res.status(404);
-			res.send('Resource Not Found');
-		} else {
-			res.send(data)
+			return res.status(404).json({						// 404 - Not Found
+				"error": 'Not Found'
+			});
 		}
+		
+		return res.status(200).json(mouth);
 	});
 })
-.put(function(req, res){ // TODO
+.put(function(req, res){ 										// ====PUT====
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).send('No files were uploaded.');
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "No File"
+		});
+	} else if (Object.keys(req.files).length > 1) {
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "Too Many Files"
+		});
 	}
+
+	let isAlready = true;
+	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {
+		if (err){
+			isAlready = false;
+		}
+	});
 
 	let file = req.files.file;
 	file.mv(PATH+"/"+req.params.id+".rive", function(err) {
 		if (err){
-			res.status(404);
-			res.send('Resource Not Found');
+			return res.status(404).json({						// 404 - Not Found
+				"error": 'Not Found'
+			});
 		}
-		else {
-			res.send('File uploaded!');
+		if (isAlready){
+			return res.status(200).json({						// 200 - OK
+				"success" : "Updated",
+			});
 		}
+		return res.status(201).json({							// 201 - Created
+			"success" : "Created",
+		});
 
 	});
 })
-.patch(function(req, res){ // Not Allowed
+.patch(function(req, res){ 										// ====PATCH====
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({								// 405 - Method Not Allowed
+		"error": 'Method Not Allowed'
+	});
 })
-.delete(function(req, res){ // TODO
+.delete(function(req, res){ 									// ====DELETE====
 	fs.unlink(PATH+"/"+req.params.id+".rive", function(err) {
 		if (err){
-			res.status(404);
-			res.send('Resource Not Found');
-		} else {
-			return res.status(200).send("Resource deleted");
+			return res.status(404).json({						// 404 - Not Found
+				"error": "Not Found"
+			});
 		}
+		
+		return res.status(200).json({{							// 200 - OK
+			"success": "Deleted"
+		});
 	});
 })
-.post(function(req, res){ // NOT Allowed
+.post(function(req, res){ 										// ====POST====
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({								// 400 - Method Not Allowed
+		"error": 'Method Not Allowed'
+	});
 })
 
 //===========================
