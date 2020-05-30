@@ -104,12 +104,6 @@ router.route("/mouths")
 //=================
 // Mouth ID
 
-router.route("/mouth").all(function(req, res) {
-	return res.status(400).json({
-		"error" : "Give an ID"
-	});
-})
-
 router.route("/mouth/:id")
 .get(function(req, res){ // TODO
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
