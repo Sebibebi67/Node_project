@@ -31,26 +31,37 @@ router.route("/mouths")
 	fs.readdir(PATH, function (err, files) {
 		
 		if (err) {
-			return console.log('Unable to scan directory: ' + err);
-		}
-		else {
-			let listOfMouths = [];
-
-			files.forEach(function (file) {
-				let f = fs.readFileSync(PATH+"/"+file)
-			
-				let mouth = JSON.parse(f);
-			
-				listOfMouths.push(mouth);
+			return res.status(500).json({
+				"error" : "Internal server error"
 			});
-	
-			res.json(listOfMouths);
-		} 
+		}
+
+		let listOfMouths = [];
+
+		files.forEach(function (file) {
+			let f = fs.readFileSync(PATH+"/"+file)
+		
+			let mouth = JSON.parse(f);
+		
+			listOfMouths.push(mouth);
+		});
+		
+		if (listOfMouths.length==0){
+			return res.status(204).json(listOfMouths);
+		}
+
+		return res.status(200).json(listOfMouths);
 	});
 })
 .post(function(req, res){ // TODO
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).send('No files were uploaded');
+		return res.status(400).json({
+			"error" : "No files were uploaded"
+		});
+	} else if (Object.keys(req.files).length > 1) {
+		return res.status(400).json({
+			"error" : "Too many files were uploaded"
+		});
 	}
 	
 	let max = 0;
@@ -58,45 +69,55 @@ router.route("/mouths")
 	fs.readdir(PATH, function (err, files) {
 		
 		if (err) {
-			return console.log('Unable to scan directory: ' + err);
+			return res.status(500).json({
+				"error" : "Internal server error"
+			});
 		} 
-		else {
 
-			files.forEach(function (file) {
-				let id = parseInt(file.trim(".json"));
-				if (max < id){
-					max = id;
-				}
-			});
-	
-			max++;
-	
-			let file = req.files.file;
-			file.mv(PATH+"/"+max+".json", function(err) {
-				if (err){
-					return res.status(500).send(err);
-				}
-				else {
-					res.send('File uploaded!');
-				}
-			});
-		}
+		files.forEach(function (file) {
+			let id = parseInt(file.trim(".json"));
+			if (max < id){
+				max = id;
+			}
+		});
+
+		max++;
+
+		let file = req.files.file;
+		file.mv(PATH+"/"+max+".json", function(err) {
+			if (err){
+				return res.status(500).json({
+					"error" : "Internal server error"
+				});
+			}
+
+			res.setHeader('Location', "/api/mouth/"+max);
+			return res.status(201).json({
+					"success" : {
+						"status" : "Created",
+						"location" : "/api/mouth/"+max,
+					}
+				});
+		});
 	});
 })
 .put(function(req, res){ // Not Allowed
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({
+		"error": 'Method Not Allowed'
+	});
 })
 .patch(function(req, res){ // Not Allowed
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({
+		"error": 'Method Not Allowed'
+	});
 })
 .delete(function(req, res){ // Not Allowed
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({
+		"error": 'Method Not Allowed'
+	});
 })
 
 //=================
@@ -106,78 +127,108 @@ router.route("/mouth/:id")
 .get(function(req, res){ // TODO
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
-			res.status(404);
-			res.send('Resource Not Found');
-		} else {
-			let mouth = JSON.parse(data);
-		
-			res.json(mouth);
+			return res.status(404).json({
+				"error": 'Not Found'
+			});
 		}
+		let mouth = JSON.parse(data);
+	
+		return res.status(200).json(mouth);
 	});
 })
 .put(function(req, res){ // TODO
 	if (!req.files || Object.keys(req.files).length === 0) {
-		return res.status(400).send('No files were uploaded');
+		return res.status(400).json({
+			"error" : "No files were uploaded"
+		});
+	} else if (Object.keys(req.files).length > 1) {
+		return res.status(400).json({
+			"error" : "Too many files were uploaded"
+		});
 	}
+
+	let isAlready = false;
+	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {
+		if (!err){
+			isAlready = true;
+		}
+	});
 
 	let file = req.files.file;
 	file.mv(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
-			res.status(404);
-			res.send('Resource Not Found');
+			return res.status(404).json({
+				"error": 'Not Found'
+			});
 		}
-		else {
-			res.send('File uploaded!');
+		if (isAlready){
+			return res.status(200).json({
+				"success" : {
+					"status" : "Updated",
+				}
+			});
 		}
+		return res.status(201).json({
+			"success" : {
+				"status" : "Created",
+			}
+		});
 	});
 })
 .patch(function(req, res){ // TODO
 	if (req.body.type != undefined || req.body.token != undefined || req.body.link != undefined){
-		console.log(req.body.type, req.body.token)
 
 		fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 			if (err){
-				res.status(404);
-				res.send('Resource Not Found');
-			} else {
-				let mouth = JSON.parse(data);
-				console.log(mouth)
-
-				if (req.body.type != undefined){
-					mouth.type = req.body.type;
-				}
-				if (req.body.token != undefined){
-					mouth.token = req.body.token;
-				}
-				if (req.body.link != undefined){
-					mouth.link = req.body.link;
-				}
-
-				newdata = JSON.stringify(mouth);
-				console.log(newdata)
-				fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
-
-				return res.status(200).send('File uploaded');
+				return res.status(404).json({
+					"error" : 'Not Found'
+				});
 			}
+
+			let mouth = JSON.parse(data);
+
+			if (req.body.type != undefined){
+				mouth.type = req.body.type;
+			}
+			if (req.body.token != undefined){
+				mouth.token = req.body.token;
+			}
+			if (req.body.link != undefined){
+				mouth.link = req.body.link;
+			}
+
+			newdata = JSON.stringify(mouth);
+			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
+
+			return res.status(200).json({
+				"success" : {
+					"status" : "Updated",
+				}
+			});
 		});
-	} else {
-		return res.status(400).send('No body sended');
 	}
+
+	return res.status(400).json({
+		"error": "No body sended"
+	});
 })
 .delete(function(req, res){ // TODO
 	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
-			res.status(404);
-			res.send('Resource Not Found');
-		} else {
-			return res.status(200).send("Resource deleted");
+			return res.status(404).json({
+				"error": "Not Found"
+			});
 		}
+		return res.status(200).json({
+			"success": "Deleted"
+		});
 	});
 })
 .post(function(req, res){ // NOT Allowed
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({
+		"error": 'Method Not Allowed'
+	});
 })
 
 //===========================
