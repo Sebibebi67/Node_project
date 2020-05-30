@@ -31,7 +31,7 @@ router.route("/mouths")
 		
 			listOfMouths.push(mouth);
 		});
-		
+
 		return res.status(200).json(listOfMouths);
 	});
 })
@@ -75,10 +75,8 @@ router.route("/mouths")
 
 			res.setHeader('Location', "/api/mouth/"+max);
 			return res.status(201).json({
-					"success" : {
-						"status" : "Created",
-						"location" : "/api/mouth/"+max,
-					}
+					"success" : "Created",
+					"location" : "/api/mouth/"+max,
 				});
 		});
 	});
@@ -145,15 +143,11 @@ router.route("/mouth/:id")
 		}
 		if (isAlready){
 			return res.status(200).json({
-				"success" : {
-					"status" : "Updated",
-				}
+				"success" : "Updated",
 			});
 		}
 		return res.status(201).json({
-			"success" : {
-				"status" : "Created",
-			}
+			"success" : "Created",
 		});
 	});
 })
@@ -183,9 +177,7 @@ router.route("/mouth/:id")
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
 
 			return res.status(200).json({
-				"success" : {
-					"status" : "Updated",
-				}
+				"success" : "Updated",
 			});
 		});
 	}
