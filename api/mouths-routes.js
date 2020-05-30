@@ -185,7 +185,7 @@ router.route("/mouth/:id")
 		}
 
 		return res.status(400).json({							// 200 - Bad request
-			"error" : "No body sended",
+			"error" : "No Body Sended",
 		});
 	});
 })
