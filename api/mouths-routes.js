@@ -184,7 +184,7 @@ router.route("/mouth/:id")
 			});
 		}
 
-		return res.status(400).json({							// 200 - Bad request
+		return res.status(400).json({							// 400- Bad request
 			"error" : "No Body Sended",
 		});
 	});
@@ -196,7 +196,7 @@ router.route("/mouth/:id")
 				"error": "Not Found"
 			});
 		}
-		return res.status(200).json({{							// 200 - OK
+		return res.status(200).json({							// 200 - OK
 			"success": "Deleted"
 		});
 	});

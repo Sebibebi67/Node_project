@@ -180,7 +180,7 @@ router.route("/brain/:id")
 			});
 		}
 		
-		return res.status(200).json({{							// 200 - OK
+		return res.status(200).json({							// 200 - OK
 			"success": "Deleted"
 		});
 	});
