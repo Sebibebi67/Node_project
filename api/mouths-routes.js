@@ -7,27 +7,13 @@ const PATH = "./data/mouths";
 var router = express.Router();
 
 //===========================
-// TEST
-
-// $ cd ./NodeBot
-
-// $ curl -X GET http://localhost:3000/api/mouths | python -m json.tool
-// $ curl -X POST http://localhost:3000/api/mouths -F "file=@./tests/mouth.json" && echo
-
-
-// $ curl -X GET http://localhost:3000/api/mouth/6 | python -m json.tool
-// $ curl -X PUT http://localhost:3000/api/mouth/6 -F "file=@./tests/mouth.json" && echo
-// $ curl -X DELETE http://localhost:3000/api/mouth/6 && echo
-// $ curl -X PATCH --data-urlencode "type=discord" --data-urlencode "token=discord-token" http://localhost:3000/api/mouth/6 && echo
-
-//===========================
 // Routes
 
 //=================
 // Mouths Collection
 
 router.route("/mouths")
-.get(function(req, res){ // TODO
+.get(function(req, res){ // GET
 	fs.readdir(PATH, function (err, files) {
 		
 		if (err) {
@@ -46,10 +32,6 @@ router.route("/mouths")
 			listOfMouths.push(mouth);
 		});
 		
-		if (listOfMouths.length==0){
-			return res.status(204).json(listOfMouths);
-		}
-
 		return res.status(200).json(listOfMouths);
 	});
 })
