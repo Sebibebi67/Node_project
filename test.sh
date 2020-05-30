@@ -138,7 +138,7 @@ title "=" "Testing REST API"
 
 while read line
 do
-	if [[ "${line::1}" == "c" ]]; then
+	if [[ "${line::1}" == [a-z] ]]; then
 	
 		command=$(echo $line | cut -d';' -f1 )
 
@@ -176,3 +176,10 @@ title End
 
 
 #================================================================================#
+
+
+
+
+
+
+
