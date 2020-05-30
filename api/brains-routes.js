@@ -59,24 +59,30 @@ router.route("/brains")
 		if (err) {
 			return console.log('Unable to scan directory: ' + err);
 		}
+		else{
+
+			files.forEach(function (file) {
+				let id = parseInt(file.trim(".rive"));
+				if (max < id){
+					max = id;
+				}
+			});
+	
+			max++;
+	
+			let file = req.files.file;
+			file.mv(PATH+"/"+max+".rive", function(err) {
+				if (err){
+					return res.status(500).send(err);
+				}
+				else{
+					res.send('File uploaded!');
+
+				}
+	
+			});
+		}
 		
-		files.forEach(function (file) {
-			let id = parseInt(file.trim(".rive"));
-			if (max < id){
-				max = id;
-			}
-		});
-
-		max++;
-
-		let file = req.files.file;
-		file.mv(PATH+"/"+max+".rive", function(err) {
-			if (err){
-				return res.status(500).send(err);
-			}
-
-			res.send('File uploaded!');
-		});
 	});
 })
 .put(function(req, res){ // Not Allowed
@@ -117,21 +123,21 @@ router.route("/brain/:id")
 	let file = req.files.file;
 	file.mv(PATH+"/"+req.params.id+".rive", function(err) {
 		if (err){
-			return res.status(500).send(err);
+			res.status(404);
+			res.send('Resource Not Found');
+		}
+		else {
+			res.send('File uploaded!');
 		}
 
-		res.send('File uploaded!');
 	});
 })
-.patch(function(req, res){ // TODO
+.patch(function(req, res){ // Not Allowed
 
-	console.log(req.body)
-	res.json({
-		response : "brain",
-	});
+	res.status(405);
+	res.send('Method Not Allowed');
 })
 .delete(function(req, res){ // TODO
-
 	fs.unlink(PATH+"/"+req.params.id+".rive", function(err) {
 		if (err){
 			res.status(404);
@@ -151,3 +157,4 @@ router.route("/brain/:id")
 // Export
 
 module.exports = router;
+
