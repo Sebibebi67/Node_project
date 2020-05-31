@@ -25,6 +25,8 @@
 # 
 # On Windows : sed -i 's/\r$//' ./test.sh 
 # OR dos2unix ./test.sh
+# 
+# details, simplify, line, help
 #
 #--------------------------------------------------------------------------------#
 
@@ -41,6 +43,11 @@
 file="./request.txt"
 lenTitle=80
 nbLine=1
+command=""
+statusExpected=""
+expected=""
+status=""
+output=""
 
 #--------------------------------------------------------------------------------#
 
@@ -110,8 +117,24 @@ checkEndOfFile(){
 	fi
 }
 
-erase(){
-	directories="./data/mouths"
+reset(){
+	###
+	# Description : Resets the data directories
+	#
+	# Input :
+	# - None
+	#
+	# Output :
+	# - Resets the data directories
+	#
+	# Authors :
+	# - Sébastien HERT
+	###
+
+	directories="./data/mouths ./data/brains ./data/bots"
+	if [[ ! -d ./data ]]; then
+		mkdir ./data
+	fi
 	for d in $directories; do
 		if [[ -d $d ]]; then
 			rm -r $d
@@ -120,6 +143,40 @@ erase(){
 			mkdir $d
 		fi
 	done
+}
+
+readingOutput(){
+	command=$(echo $line | cut -d';' -f1 )
+
+	expected=$(echo $(echo $line | cut -d';' -f2 ))
+
+	statusExpected=$(echo $(echo $line | cut -d';' -f3 | sed 's/[^0-9]//g'))
+
+	fullOutput=${command/-X/'--write-out %{http_code} --silent -X'}
+	
+	output=$($fullOutput)
+
+
+	status=${output: -3}
+	output=${output:0: -3}
+}
+
+shortDisplay(){
+	echo short
+}
+
+completeDisplay(){
+	title "-" "Testing Command Line $nbLine"
+
+	echo -e "\e[34mCommand Tested :\e[0m $command\n"
+
+	echo -e "\e[34mOutput expected :\e[0m Status : $statusExpected ; $expected\n"
+
+	if [[ $status == $statusExpected ]]; then
+		echo -e -n "\e[34mOutput : \e[0m\e[32mStatus : $status ; $output\e[0m\n\n"
+	else
+		echo -e -n "\e[34mOutput : \e[0m\e[31mStatus : $status ; $output\e[0m\n\n"
+	fi
 }
 
 
@@ -132,43 +189,46 @@ set -e
 
 checkEndOfFile
 
-erase
+reset
 
 title "=" "Testing REST API"
 
-while read line
-do
-	if [[ "${line::1}" == [a-z] ]]; then
-	
-		command=$(echo $line | cut -d';' -f1 )
-
-		expected=$(echo $(echo $line | cut -d';' -f2 ))
-
-		statusExpected=$(echo $(echo $line | cut -d';' -f3 | sed 's/[^0-9]//g'))
-
-		fullOutput=${command/-X/'--write-out %{http_code} --silent -X'}
-		
-		output=$($fullOutput)
-
-
-		status=${output: -3}
-		output=${output:0: -3}
-
-		title "-" "Testing Command Line $nbLine"
-
-		echo -e "\e[34mCommand Tested :\e[0m $command\n"
-
-		echo -e "\e[34mOutput expected :\e[0m Status : $statusExpected ; $expected\n"
-
-		if [[ $status == $statusExpected ]]; then
-			echo -e -n "\e[34mOutput : \e[0m\e[32mStatus : $status ; $output\e[0m\n\n"
-		else
-			echo -e -n "\e[34mOutput : \e[0m\e[31mStatus : $status ; $output\e[0m\n\n"
+if [[ $# == 0 || $1 == '-n' || $1 == '-normal' ]]; then
+	while read line; do
+		if [[ "${line::1}" == [a-z] ]]; then
+			readingOutput
+			shortDisplay
 		fi
-
+		(( nbLine++))
+	done < $file
+elif [[ $# == 1 && ( $1 == '-d' || $1 == '-details' ) ]]; then
+	while read line; do
+		if [[ "${line::1}" == [a-z] ]]; then
+			readingOutput
+			completeDisplay
+		fi
+		(( nbLine++))
+	done < $file
+elif [[ $# == 2 && ( $1 == '-l' || $1 == '-line') ]]; then
+	while read line; do
+		lineRead="False"
+		if [[ $nbLine == $2 ]]; then
+			lineRead="True"
+			if [[ "${line::1}" == [a-z] ]]; then
+				readingOutput
+				completeDisplay
+			else
+				echo -e "\e[93mCannot read the line $2, please make sure it's a command line in $file\e[0m\n"
+			fi
+		fi
+		(( nbLine++))
+	done < $file
+	if [[ $lineRead == "False" ]]; then
+		echo -e "\e[93mCannot read the line $2, please make sure it exists\e[0m\n"
 	fi
-	(( nbLine++))
-done < $file
+else
+	echo toto
+fi
 
 title End
 
