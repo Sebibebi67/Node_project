@@ -1,15 +1,27 @@
 # **REST API project**
 
----
-
 ## **Description**
 
 description
 
-
 ## **Installation**
 
-installation
+This project use node, make sure you have installed it, then do :
+
+Install all modules : 
+
+```bash
+npm install
+```
+
+Start the Server :
+```
+npm start
+```
+
+## **Use the API**
+
+[Documentation API](./tests/DOC.MD)
 
 ## **Testing Script**
 
