@@ -28,9 +28,6 @@
 #  * -l, -line :      	Execute the line [line] of the file request.txt
 #
 # [line] : Can only be used with the -line option
-#  
-# On Windows : sed -i 's/\r$//' ./test.sh 
-# OR dos2unix ./test.sh
 #
 #--------------------------------------------------------------------------------#
 
