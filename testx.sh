@@ -161,17 +161,20 @@ do
 		# echo -e "\e[36mOutput expected :\e[0m Status : $statusExpected ; $expected\n"
 
 		if [[ $status == $statusExpected ]]; then
-			printf "\e[36m Command Tested : \e[0m%-130s | \e[36mExpected Output : \e[0m%s \e[36mOutput : \e[0m%s | \e[36mStatus : \e[32mOK\n" "$command" "$statusExpected" "$status"
 			# echo -e -n "\e[36mOutput : \e[0m\e[32mStatus : $status ; $output\e[0m\n\n"
+			printf "\e[0m %-6s \e[36mCommand Tested : \e[0m%-130s \e[36mExpected : \e[0m%-15s \e[36mOutput : \e[0m%-10s \e[36mStatus : " "($nbLine)" "$command" "$statusExpected" "$status"
+			printf "\e[32mOK\n"
 		else
-			printf "\e[36m Command Tested : \e[0m%-130s | \e[36mExpected Output : \e[0m%s \e[36mOutput : \e[0m%s | \e[36mStatus : \e[31mKO\n" "$command" "$statusExpected" "$status"
 			#echo -e -n "\e[36mOutput : \e[0m\e[31mStatus : $status ; $output\e[0m\n\n"
+			printf "\e[0m %-6s \e[36mCommand Tested : \e[31m%-130s \e[36mExpected : \e[32m%-15s \e[36mOutput : \e[31m%-10s \e[36mStatus : " "($nbLine)" "$command" "$statusExpected" "$status"
+			printf "\e[31mKO\n"
 		fi
 
 	fi
 	(( nbLine++))
 done < $file
 
+echo
 title End
 
 #--------------------------------------------------------------------------------#
