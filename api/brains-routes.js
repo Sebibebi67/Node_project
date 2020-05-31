@@ -80,6 +80,21 @@ router.route("/brains")
 		max++;
 
 		let file = req.files.file;
+
+		// Rive file ?
+		try {
+			JSON.parse(file.data);
+			return res.status(400).json({							// 400 - Bad Request
+				"error" : "Not a Rive File"
+			});
+		} catch(e) {
+			if (!file.name.includes(".rive")){
+				return res.status(400).json({							// 400 - Bad Request
+					"error" : "Not a Rive File"
+				});
+			}
+		}
+
 		file.mv(PATH+"/"+max+".rive", function(err) {
 			if (err){
 				return res.status(500).json({					// 500 - Internal Server Error
@@ -152,6 +167,21 @@ router.route("/brain/:id")
 	});
 
 	let file = req.files.file;
+
+	// Rive file ?
+	try {
+		JSON.parse(file.data);
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "Not a Rive File"
+		});
+	} catch(e) {
+		if (!file.name.includes(".rive")){
+			return res.status(400).json({							// 400 - Bad Request
+				"error" : "Not a Rive File"
+			});
+		}
+	}
+
 	file.mv(PATH+"/"+req.params.id+".rive", function(err) {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
@@ -167,12 +197,6 @@ router.route("/brain/:id")
 			"success" : "Created",
 		});
 
-	});
-})
-.patch(function(req, res){ 										// ====PATCH====
-
-	return res.status(405).json({								// 405 - Method Not Allowed
-		"error": 'Method Not Allowed'
 	});
 })
 .delete(function(req, res){ 									// ====DELETE====
@@ -191,6 +215,12 @@ router.route("/brain/:id")
 .post(function(req, res){ 										// ====POST====
 
 	return res.status(405).json({								// 400 - Method Not Allowed
+		"error": 'Method Not Allowed'
+	});
+})
+.patch(function(req, res){ 										// ====PATCH====
+
+	return res.status(405).json({								// 405 - Method Not Allowed
 		"error": 'Method Not Allowed'
 	});
 })

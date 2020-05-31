@@ -3,6 +3,8 @@ var path = require('path');
 var fs = require('fs');
 
 const PATH = "./data/bots";
+const BRAIN_PATH = "./data/brains";
+const MOUTH_PATH = "./data/mouths";
 
 var router = express.Router();
 
@@ -84,23 +86,56 @@ router.route("/bots")
 
 		let file = req.files.file;
 		
+		// Json file ?
 		try {
 			var data = JSON.parse(file.data);
 		} catch(e) {
-			return res.status(400).json({						// 400 - Bad Request
+			return res.status(400).json({							// 400 - Bad Request
 				"error" : "Not A Json File"
 			});
 		}
 
-		if (data.state != true && data.type != false){
-			return res.status(400).json({						// 400 - Bad Request
+		// Good fields ?
+		if (data.state != true && data.state != false){
+			return res.status(400).json({							// 400 - Bad Request
 				"error" : "Bad Json Data"
 			});
 		}
+
+		// All fields exist
 		for (let field in data){
 			if (field != "state" && field != "brains" && field != "mouths"){
-				return res.status(400).json({					// 400 - Bad Request
+				return res.status(400).json({						// 400 - Bad Request
 					"error" : "Bad Json Data"
+				});
+			}
+		}
+		
+		// Fields brains & mouths are arrays ?
+		if (!Array.isArray(data.brains) || !Array.isArray(data.mouths)){
+			return res.status(400).json({						// 400 - Bad Request
+				"error" : "Brains and Mouths must be arrays"
+			});
+		}
+		
+		// Brains exist
+		for (let id in data.brains){
+			try {
+				fs.readFileSync(BRAIN_PATH+"/"+data.brains[id]+".rive");
+			} catch (err) {
+				return res.status(400).json({						// 400 - Bad Request
+					"error" : "Brain "+data.brains[id]+" Not Found"
+				});
+			}
+		}
+
+		// Mouths exist
+		for (let id in data.mouths){
+			try {
+				fs.readFileSync(MOUTH_PATH+"/"+data.mouths[id]+".json");
+			} catch (err) {
+				return res.status(400).json({						// 400 - Bad Request
+					"error" : "Brain "+data.mouths[id]+" Not Found"
 				});
 			}
 		}
@@ -177,6 +212,7 @@ router.route("/bot/:id")
 
 	let file = req.files.file;
 	
+	// Json file ?
 	try {
 		var data = JSON.parse(file.data);
 	} catch(e) {
@@ -185,15 +221,47 @@ router.route("/bot/:id")
 		});
 	}
 
-	if (data.state != true && data.type != false){
+	// Good fields ?
+	if (data.state != true && data.state != false){
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "Bad Json Data"
 		});
 	}
+
+	// All fields exist
 	for (let field in data){
 		if (field != "state" && field != "brains" && field != "mouths"){
 			return res.status(400).json({						// 400 - Bad Request
 				"error" : "Bad Json Data"
+			});
+		}
+	}
+	
+	// Fields brains & mouths are arrays ?
+	if (!Array.isArray(data.brains) || !Array.isArray(data.mouths)){
+		return res.status(400).json({						// 400 - Bad Request
+			"error" : "Brains and Mouths must be arrays"
+		});
+	}
+	
+	// Brains exist
+	for (let id in data.brains){
+		try {
+			fs.readFileSync(BRAIN_PATH+"/"+data.brains[id]+".rive");
+		} catch (err) {
+			return res.status(400).json({						// 400 - Bad Request
+				"error" : "Brain "+data.brains[id]+" Not Found"
+			});
+		}
+	}
+
+	// Mouths exist
+	for (let id in data.mouths){
+		try {
+			fs.readFileSync(MOUTH_PATH+"/"+data.mouths[id]+".json");
+		} catch (err) {
+			return res.status(400).json({						// 400 - Bad Request
+				"error" : "Brain "+data.mouths[id]+" Not Found"
 			});
 		}
 	}
