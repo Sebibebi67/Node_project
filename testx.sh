@@ -111,7 +111,7 @@ checkEndOfFile(){
 }
 
 erase(){
-	directories="./data/mouths"
+	directories="./data/mouths ./data/brains ./data/bots"
 	for d in $directories; do
 		if [[ -d $d ]]; then
 			rm -r $d

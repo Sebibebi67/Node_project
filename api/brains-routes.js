@@ -160,7 +160,7 @@ router.route("/brain/:id")
 	}
 
 	let isAlready = true;
-	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {
+	fs.readFile(PATH+"/"+req.params.id+'.rive', (err) => {
 		if (err){
 			isAlready = false;
 		}

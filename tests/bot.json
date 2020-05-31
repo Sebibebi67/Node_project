@@ -1,9 +1,14 @@
 {
 	"state" : true,
 	"brains" : [
+		1,
+		1,
 		1
 	],
 	"mouths" : [
+		1,
+		1,
+		1,
 		1
 	]
 }

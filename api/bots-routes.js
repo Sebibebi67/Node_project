@@ -135,7 +135,7 @@ router.route("/bots")
 				fs.readFileSync(MOUTH_PATH+"/"+data.mouths[id]+".json");
 			} catch (err) {
 				return res.status(400).json({						// 400 - Bad Request
-					"error" : "Brain "+data.mouths[id]+" Not Found"
+					"error" : "Mouth "+data.mouths[id]+" Not Found"
 				});
 			}
 		}
@@ -261,7 +261,7 @@ router.route("/bot/:id")
 			fs.readFileSync(MOUTH_PATH+"/"+data.mouths[id]+".json");
 		} catch (err) {
 			return res.status(400).json({						// 400 - Bad Request
-				"error" : "Brain "+data.mouths[id]+" Not Found"
+				"error" : "Mouth "+data.mouths[id]+" Not Found"
 			});
 		}
 	}
@@ -290,20 +290,20 @@ router.route("/bot/:id")
 			});
 		}
 
-		if (req.body.status != undefined){
+		if (req.body.state != undefined){
 	
 			let mouth = JSON.parse(data);
 
-			if (req.body.status != undefined){
-				if (req.body.status != "true" 
-					&& req.body.status != "false"){
+			if (req.body.state != undefined){
+				if (req.body.state != "true" 
+					&& req.body.state != "false"){
 
 					return res.status(400).json({				// 400 - Bad Request
-						"error": 'Status can be true or false'
+						"error": 'state can be true or false'
 					});
 				}
 			}
-			mouth.status = req.body.status==="true"?true:false;
+			mouth.state = req.body.status==="true"?true:false;
 
 			newData = JSON.stringify(mouth);
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newData);
