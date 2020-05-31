@@ -66,10 +66,10 @@ curl -X POST http://localhost:3000/api/mouth/6 -F file=@./tests/mouth_web.json ;
 #********************************************************************************#
 
 # GET request on empty directory then POST a mouth and GET it
-curl -X GET http://localhost:3000/api/brains ; {} ; 200
+curl -X GET http://localhost:3000/api/brains ; [] ; 200
 curl -X POST http://localhost:3000/api/brains ; {"error":"No File"} ; 400
 curl -X POST http://localhost:3000/api/brains -F file=@./tests/mouth_web.json ; {"error":"Bad Json Data"} ; 400
-curl -X POST http://localhost:3000/api/brains -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
 curl -X GET http://localhost:3000/api/brains ; {"1":{"type":"web","token":null,"link":null}} ; 200
 
 # Bad requests because methods are not allowed
@@ -82,13 +82,8 @@ curl -X GET http://localhost:3000/api/brain/6 ; {"error":"Not Found"} ; 404
 curl -X GET http://localhost:3000/api/brain/1 ; {"type":"web","token":null,"link":null} ; 200
 
 # PUT request on non-existing then existing mouths
-curl -X PUT http://localhost:3000/api/brain/2 -F file=@./tests/bot.json ; {"success":"Created"} ; 201
-curl -X PUT http://localhost:3000/api/brain/1 -F file=@./tests/bot.json ; {"success":"Updated"} ; 200
-
-# PATCH on non-existing then existing mouths, with and without body
-curl -X PATCH --data-urlencode type=discord --data-urlencode token=null http://localhost:3000/api/brain/6 ; {"error":"Not Found"} ; 404
-curl -X PATCH http://localhost:3000/api/brain/1 ; {"error":"No body sended"} ; 400
-curl -X PATCH --data-urlencode status=false http://localhost:3000/api/brain/1 ; {"success":"Updated"} ; 200
+curl -X PUT http://localhost:3000/api/brain/2 -F file=@./tests/brain.rive ; {"success":"Created"} ; 201
+curl -X PUT http://localhost:3000/api/brain/1 -F file=@./tests/brain.rive ; {"success":"Updated"} ; 200
 
 #DELETE on non-existing then existing mouths
 curl -X DELETE http://localhost:3000/api/brain/6 ; {"error":"Not Found"} ; 404
@@ -105,6 +100,9 @@ curl -X POST http://localhost:3000/api/brain/6 -F file=@./tests/mouth_web.json ;
 curl -X GET http://localhost:3000/api/bots ; {} ; 200
 curl -X POST http://localhost:3000/api/bots ; {"error":"No File"} ; 400
 curl -X POST http://localhost:3000/api/bots -F file=@./tests/mouth_web.json ; {"error":"Bad Json Data"} ; 400
+
+curl -X GET http://localhost:3000/api/brains ; [] ; 200
+curl -X GET http://localhost:3000/api/mouths ; {} ; 200
 curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
 curl -X GET http://localhost:3000/api/bots ; {"1":{"type":"web","token":null,"link":null}} ; 200
 
@@ -124,7 +122,7 @@ curl -X PUT http://localhost:3000/api/bot/1 -F file=@./tests/bot.json ; {"succes
 # PATCH on non-existing then existing mouths, with and without body
 curl -X PATCH --data-urlencode type=discord --data-urlencode token=null http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
 curl -X PATCH http://localhost:3000/api/bot/1 ; {"error":"No body sended"} ; 400
-curl -X PATCH --data-urlencode status=false http://localhost:3000/api/bot/1 ; {"success":"Updated"} ; 200
+curl -X PATCH --data-urlencode state=false http://localhost:3000/api/bot/1 ; {"success":"Updated"} ; 200
 
 #DELETE on non-existing then existing mouths
 curl -X DELETE http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
@@ -137,17 +135,3 @@ curl -X POST http://localhost:3000/api/bot/6 -F file=@./tests/mouth_web.json ; {
 
 
 #================================================================================#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
