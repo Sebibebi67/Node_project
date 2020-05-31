@@ -69,6 +69,28 @@ router.route("/mouths")
 		max++;
 
 		let file = req.files.file;
+		
+		try {
+			var data = JSON.parse(file.data);
+		} catch(e) {
+			return res.status(400).json({						// 400 - Bad Request
+				"error" : "Not A Json File"
+			});
+		}
+
+		if (data.type != "web" && data.type != "discord"){
+			return res.status(400).json({						// 400 - Bad Request
+				"error" : "Bad Json Data"
+			});
+		}
+		for (let field in data){
+			if (field != "type" && field != "token" && field != "link"){
+				return res.status(400).json({					// 400 - Bad Request
+					"error" : "Bad Json Data"
+				});
+			}
+		}
+
 		file.mv(PATH+"/"+max+".json", function(err) {
 			if (err){
 				return res.status(500).json({					// 500 - Internal Server Error
@@ -116,7 +138,7 @@ router.route("/mouth/:id")
 		}
 		let mouth = JSON.parse(data);
 	
-		return res.status(200).json(mouth);
+		return res.status(200).json(mouth);						// 200 - OK
 	});
 })
 .put(function(req, res){ 										// ====PUT====
@@ -140,6 +162,28 @@ router.route("/mouth/:id")
 	});
 
 	let file = req.files.file;
+
+	try {
+		var data = JSON.parse(file.data);
+	} catch(e) {
+		return res.status(400).json({						// 400 - Bad Request
+			"error" : "Not A Json File"
+		});
+	}
+
+	if (data.type != "web" && data.type != "discord"){
+		return res.status(400).json({						// 400 - Bad Request
+			"error" : "Bad Json Data"
+		});
+	}
+	for (let field in data){
+		if (field != "type" && field != "token" && field != "link"){
+			return res.status(400).json({						// 400 - Bad Request
+				"error" : "Bad Json Data"
+			});
+		}
+	}
+
 	file.mv(PATH+"/"+req.params.id+".json", function(err) {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
@@ -171,17 +215,36 @@ router.route("/mouth/:id")
 			let mouth = JSON.parse(data);
 
 			if (req.body.type != undefined){
+				if (req.body.type != "web" 
+					&& req.body.type != "discord"){
+
+					return res.status(400).json({						// 400 - Bad Request
+						"error": 'Type can be "web" or "discord"'
+					});
+				}
 				mouth.type = req.body.type;
 			}
 			if (req.body.token != undefined){
-				mouth.token = req.body.token;
+				if (req.body.token == "null"){
+					mouth.token = null;
+				} else {
+					mouth.token = req.body.token;
+				}
 			}
 			if (req.body.link != undefined){
-				mouth.link = req.body.link;
+				if (req.body.link == "null"){
+					mouth.link = null;
+				} else {
+					mouth.link = req.body.link;
+				}
+			}
+			if (mouth.type == "web"){
+				mouth.token = null;
+				mouth.link = null;
 			}
 
-			newdata = JSON.stringify(mouth);
-			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newdata);
+			newData = JSON.stringify(mouth);
+			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newData);
 
 			return res.status(200).json({						// 200 - OK
 				"success" : "Updated",

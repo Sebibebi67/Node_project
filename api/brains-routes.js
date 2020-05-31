@@ -121,14 +121,14 @@ router.route("/brains")
 
 router.route("/brain/:id")
 .get(function(req, res){ 										// ====GET====
-	fs.readFile(PATH+"/"+req.params.id+'.rive', (err, data) => {
+	fs.readFile(PATH+"/"+req.params.id+'.rive', "utf-8", (err, data) => {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
 				"error": 'Not Found'
 			});
 		}
 		
-		return res.status(200).json(mouth);
+		return res.status(200).json(data);						// 200 - OK
 	});
 })
 .put(function(req, res){ 										// ====PUT====

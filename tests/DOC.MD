@@ -22,7 +22,7 @@ Json containing all mouths
 #### POST
 
 ```bash
-curl -X POST "http://localhost:3000/api/mouths" -F "file=@./tests/mouth.json" && echo
+curl -X POST "http://localhost:3000/api/mouths" -F "file=@./tests/mouth_web.json" && echo
 ```
 
 Response :
@@ -73,7 +73,7 @@ Json explaining the error
 #### PUT
 
 ```bash
-curl -X PUT "http://localhost:3000/api/mouth/1" && echo
+curl -X POST "http://localhost:3000/api/mouths" -F "file=@./tests/mouth_web.json" && echo
 ```
 
 Response :
