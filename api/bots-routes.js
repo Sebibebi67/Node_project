@@ -328,14 +328,23 @@ router.route("/bot/:id")
 			});
 		}
 
-		console.log(req.body);
-
-		if (req.body.state != undefined || req.body.addmouth != undefined){
+		if (req.body.state != undefined 
+			|| req.body.addmouth != undefined || req.body.delmouth != undefined 
+			|| req.body.addbrain != undefined  || req.body.delbrain != undefined ){
 
 			let bot = JSON.parse(data);
 
 			if (req.body.addmouth != undefined){
 				console.log(req.body.addmouth);
+			}
+			if (req.body.delmouth != undefined){
+				console.log(req.body.delmouth);
+			}
+			if (req.body.addbrain != undefined){
+				console.log(req.body.addbrain);
+			}
+			if (req.body.delbrain != undefined){
+				console.log(req.body.delbrain);
 			}
 
 			if (req.body.state != undefined){
@@ -391,6 +400,7 @@ router.route("/bot/:id")
 	});
 })
 .post(function(req, res){ 										// ====POST====
+
 
 	return res.status(405).json({							// 400- Bad request
 		"error" : "Method Not Allowed",
