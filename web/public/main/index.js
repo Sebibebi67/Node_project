@@ -43,3 +43,5 @@ function displaySubtitle(){
     subtitle.style.height = "100px";
     subtitle.style.opacity = 1;
 }
+
+document.getEm

@@ -32,7 +32,7 @@ class Brain {
 	}
 	
 	/**
-	 * Loads a directory whitch contains the .rive files
+	 * Loads a directory which contains the .rive files
 	 */
 	loading(){
 		return this.bot.loadFile(this.files);
