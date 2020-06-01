@@ -11,7 +11,9 @@
 #------------------------------------ Syntax ------------------------------------#
 #
 # If you want to comment a line, you can use "#"
-# Use the following syntax "command ; outputExpected"
+# If you want to display a title, tou can use "++ Title ++"
+# Use the following syntax "command ; outputExpected ; statusExpected"
+# 
 #
 #--------------------------------------------------------------------------------#
 
@@ -26,7 +28,7 @@
 #----------------------------------- Requests -----------------------------------#
 
 #********************************************************************************#
-#************************************ Mouths ************************************#
+++ Mouths ++
 #********************************************************************************#
 
 # GET request on empty directory then POST a mouth and GET it
@@ -62,7 +64,7 @@ curl -X DELETE http://localhost:3000/api/mouth/2 ; {"success":"Deleted"} ; 200
 curl -X POST http://localhost:3000/api/mouth/6 -F file=@./tests/mouth_web.json ; {"error":"Method Not Allowed"} ; 405
 
 #********************************************************************************#
-#************************************ Brains ************************************#
+++ Brains ++
 #********************************************************************************#
 
 # GET request on empty directory then POST a mouth and GET it
@@ -93,7 +95,7 @@ curl -X DELETE http://localhost:3000/api/brain/2 ; {"success":"Deleted"} ; 200
 curl -X POST http://localhost:3000/api/brain/6 -F file=@./tests/mouth_web.json ; {"error":"Method Not Allowed"} ; 405
 
 #********************************************************************************#
-#************************************* Bots *************************************#
+++ Bots ++
 #********************************************************************************#
 
 # GET request on empty directory then POST a mouth and GET it

@@ -39,6 +39,22 @@
 #--------------------------------------------------------------------------------#
 
 
+#----------------------------------- Imports ------------------------------------#
+
+default="\e[0m"
+bolt="\e[1m"
+
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+blue="\e[34m"
+magenta="\e[35m"
+cyan="\e[36m"
+orange="\e[38;5;208m"
+
+#--------------------------------------------------------------------------------#
+
+
 #------------------------------- Global Variables -------------------------------#
 
 file="./request.txt"
@@ -61,6 +77,7 @@ title(){
 	# Description : Displays a Title in the terminal
 	#
 	# Input :
+	# - The color as an option
 	# - The separator (=,-,*, etc)
 	# - The title to display as a String
 	#
@@ -74,14 +91,22 @@ title(){
 	if [ $# -eq 0 ]; then
         param="Titre"
         id="="
+		color=$magenta
     elif [ $# -eq 1 ]; then
         param=$1
         id="="
+		color=$magenta
     elif [ $# -eq 2 ]; then
         param=$2
         id=$1
+		color=$magenta
+	elif [ $# -eq 3 ]; then
+		param=$3
+        id=$2
+		color=$1
     else
         echo error
+		exit
     fi
 
     lenParam=${#param}
@@ -96,7 +121,7 @@ title(){
         title="${title}$id"
     done
 
-    echo -e "\e[35m\e[1m${title}\n\e[0m"
+    echo -e ${color}${bolt}${title}${color}${default}"\n"
 }
 
 checkEndOfFile(){
@@ -219,9 +244,9 @@ completeDisplay(){
 
 	title "-" "Testing Command Line $nbLine"
 
-	echo -e "\e[34mCommand Tested :\e[0m $command\n"
+	echo -e "\e[34mCommand Tested :\e[0m $command"
 
-	echo -e "\e[34mOutput expected :\e[0m Status : $statusExpected ; $expected\n"
+	echo -e "\e[34mOutput expected :\e[0m Status : $statusExpected ; $expected"
 
 	if [[ $status == $statusExpected ]]; then
 		echo -e -n "\e[34mOutput : \e[0m\e[32mStatus : $status ; $output\e[0m\n\n"
@@ -281,16 +306,20 @@ set -e
 # Checks if the end of the File is a blank line
 checkEndOfFile
 
-# Resets the data directories
-reset
-
 # The user wants to see the short version
 if [[ $# == 0 || $1 == '-s' || $1 == '-short' ]]; then
 	title "=" "REST API Tester"
+
+	# Resets the data directories
+	reset
+	
 	while read line; do
 		if [[ "${line::1}" == [a-z] ]]; then
 			readingOutput
 			shortDisplay
+		elif [[ "${line:0: 3}" == "++ " && "${line: -3}" == " ++" ]]; then
+			echo ""
+			title $orange + "${line:3: -3}"
 		fi
 		(( nbLine++))
 	done < $file
@@ -298,15 +327,22 @@ if [[ $# == 0 || $1 == '-s' || $1 == '-short' ]]; then
 
 # The user wants to see the detailed version
 elif [[ $# == 1 && ( $1 == '-d' || $1 == '-details' ) ]]; then
+
+	# Resets the data directories
+	reset
+
 	title "=" "REST API Tester"
 	while read line; do
 		if [[ "${line::1}" == [a-z] ]]; then
 			readingOutput
 			completeDisplay
+			
+		elif [[ "${line:0: 3}" == "++ " && "${line: -3}" == " ++" ]]; then
+			title $orange + "${line:3: -3}"
 		fi
 		# Stops the script if the status and the status expected are different
 		if [[ $error == "True" ]]; then
-			echo -e "\e[93mSomething went wrong and the tester stops running. Please check your request line $nbLine before trying again.\n\e[0m"
+			echo -e "${yellow}Something went wrong and the tester stops running. Please check your request line $nbLine before trying again.\n${yellow}"
 			break
 		fi
 		(( nbLine++))
