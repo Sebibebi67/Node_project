@@ -220,10 +220,10 @@ shortDisplay(){
 	###
 
 	if [[ $status == $statusExpected ]]; then
-		printf "\e[0m %-6s \e[36mCommand Tested : \e[0m%-130s \e[36mExpected : \e[0m%-5s \e[36mOutput : \e[0m%-5s \e[36mStatus : " "($nbLine)" "$command" "$statusExpected" "$status"
+		printf "${default} %-6s \e[36mCommand Tested : ${default}%-130s \e[36mExpected : ${default}%-5s \e[36mOutput : \e[0m%-5s \e[36mStatus : " "($nbLine)" "$command" "$statusExpected" "$status"
 		printf "\e[32mOK\n"
 	else
-		printf "\e[0m %-6s \e[36mCommand Tested : \e[31m%-130s \e[36mExpected : \e[32m%-5s \e[36mOutput : \e[31m%-5s \e[36mStatus : " "($nbLine)" "$command" "$statusExpected" "$status"
+		printf "${default} %-6s \e[36mCommand Tested : \e[31m%-130s \e[36mExpected : \e[32m%-5s \e[36mOutput : \e[31m%-5s \e[36mStatus : " "($nbLine)" "$command" "$statusExpected" "$status"
 		printf "\e[31mKO\n"
 	fi
 }
@@ -351,8 +351,8 @@ elif [[ $# == 1 && ( $1 == '-d' || $1 == '-details' ) ]]; then
 # The user wants to see the output of an unique line
 elif [[ $# == 2 && ( $1 == '-l' || $1 == '-line') ]]; then
 	title "=" "REST API Tester"
+	lineRead="False"
 	while read line; do
-		lineRead="False"
 		if [[ $nbLine == $2 ]]; then
 			lineRead="True"
 			if [[ "${line::1}" == [a-z] ]]; then
@@ -361,7 +361,7 @@ elif [[ $# == 2 && ( $1 == '-l' || $1 == '-line') ]]; then
 
 			# The line isn't a command
 			else
-				echo -e "\e[93mCannot read the line $2, please make sure it's a command line in $file\e[0m\n"
+				echo -e "${yellow}Cannot read the line $2, please make sure it's a command line in $file${default}\n"
 			fi
 		fi
 		(( nbLine++))
@@ -369,7 +369,7 @@ elif [[ $# == 2 && ( $1 == '-l' || $1 == '-line') ]]; then
 
 	# No line has been read because the file ended before matching the line
 	if [[ $lineRead == "False" ]]; then
-		echo -e "\e[93mCannot read the line $2, please make sure it exists\e[0m\n"
+		echo -e "${yellow}Cannot read the line $2, please make sure it exists${default}\n"
 	fi
 
 # The user wants to show this help
@@ -378,7 +378,7 @@ elif [[ $# == 1 && ( $1 == '-h' || $1 == '-help' ) ]]; then
 
 # Input has not been recognized
 else
-	echo -e "\e[93mIt looks like something went wrong, please use -help to display the help\e[0m\n"
+	echo -e "${yellow}It looks like something went wrong, please use -help to display the help${default}\n"
 fi
 
 title End
