@@ -69,23 +69,13 @@ class BotsManager {
 		for (let id in list){
 			let bot = list[id];
 
-			let name = (parseInt(id) <= NAMES.length)?NAMES[parseInt(id)-1]:undefined;
+			let name = (parseInt(id) <= NAMES.length)?NAMES[parseInt(id)-1]:"ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
+
 			this.bots[id] = {
 				"brain": new Brain("Bot"+id, bot.mouths.map(value => BRAIN_PATH+value+".rive")),
 				"name": name
 			}
-
-			/*let t = this
-			await axios.get("https://api.namefake.com/french-france/random")
-			.then(function (response) {
-				t.bots[id].name = response.data.name.split(" ")[0];
-			})
-			.catch(function (error) {
-				console.log("An error occurred while fetching name from \"api.namefake.com\"");
-				t.bots[id].name = "ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
-			})*/
-			//this.bots[id].name = "ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
-
+			
 			await this.bots[id].brain.loading().then(() => {
 				this.bots[id].brain.loadingDone();
 			}).catch(err => {

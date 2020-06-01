@@ -328,8 +328,6 @@ router.route("/bot/:id")
 			});
 		}
 
-		console.log(req.body);
-
 		if (req.body.state != undefined || req.body.addmouth != undefined){
 
 			let bot = JSON.parse(data);
