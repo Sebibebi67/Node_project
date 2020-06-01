@@ -42,7 +42,7 @@ class Brain {
 	 * Confirms the success of the loading
 	 */
 	loadingDone(){
-		console.log("Success Loading\n");
+		//console.log("Success Loading\n");
 		this.bot.sortReplies();
     }
     
