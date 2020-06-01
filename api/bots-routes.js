@@ -328,6 +328,8 @@ router.route("/bot/:id")
 			});
 		}
 
+		console.log(req.body);
+
 		if (req.body.state != undefined || req.body.addmouth != undefined){
 
 			let bot = JSON.parse(data);
@@ -351,7 +353,6 @@ router.route("/bot/:id")
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newData);
 
 			botManager.loadBots().then(() => {
-				console.log("Bots loaded");
 				console.log(botManager);
 			}).catch(err => {
 				console.log(err);

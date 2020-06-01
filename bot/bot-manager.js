@@ -6,6 +6,7 @@
 // Vendors
 
 var fs = require('fs');
+const Discord = require('discord.js');
 //const axios = require('axios');
 
 //======================
@@ -75,7 +76,7 @@ class BotsManager {
 				"brain": new Brain("Bot"+id, bot.mouths.map(value => BRAIN_PATH+value+".rive")),
 				"name": name
 			}
-			
+
 			await this.bots[id].brain.loading().then(() => {
 				this.bots[id].brain.loadingDone();
 			}).catch(err => {
