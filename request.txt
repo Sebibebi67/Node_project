@@ -141,9 +141,10 @@ curl -X DELETE http://localhost:3000/api/mouth/1 ; {"success":"Deleted"} ; 200
 
 curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
 curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
-
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
 
 #================================================================================#
+
 
 
 
