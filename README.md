@@ -29,7 +29,7 @@ The script [test.sh](test.sh) allow you to test some requests written in [reques
 
 ### Synopsis
 
-./chef.sh \<arg> [line]
+./test.sh \<arg> [line]
 
 \<arg> :
 * -h, -help : *Displays the help*
