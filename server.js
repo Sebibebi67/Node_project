@@ -1,24 +1,27 @@
+//====================================================
+// Require
+//====================================================
 
-//===========================
-// Import
+//======================
+// Vendors
 
-// Vendors Modules
 var express = require('express');
 var app = express();
 const fileUpload = require('express-fileupload');
-//var path = require('path');
 var bodyParser = require('body-parser');
 
-// Own Modules
+//======================
+// Own
+
 var webRoutes = require('./web/routes');
 var apiRoutes = require('./api/routes');
 
-//===========================
-// Define
+//====================================================
+// Init express
+//====================================================
 
 var hostname = 'localhost'; 
 var port = 3000;  
-
 
 app.use(fileUpload());
 
@@ -31,15 +34,21 @@ app.use(function(req, res, next) {
 	next();
 });
 
-//===========================
+//====================================================
 // Define routes
+//====================================================
 
-app.use(webRoutes);
+app.use("/", webRoutes);
 app.use("/api", apiRoutes);
 
-//===========================
+//====================================================
 // Start the server
+//====================================================
 
 app.listen(port, hostname, function() {
-	console.log("To use the API : http://"+ hostname +":"+port+"\n");
+	console.log("\nTo use the API : http://"+ hostname +":"+port+"\n");
 });
+
+//====================================================
+// End
+//====================================================

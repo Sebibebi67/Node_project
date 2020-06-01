@@ -1,9 +1,23 @@
+//====================================================
+// Require
+//====================================================
+
+//======================
+// Vendors
+
 var express = require('express');
 var path = require('path');
+
+//======================
+// Own
 
 var botsRoutes = require("./bots-routes");
 var mouthsRoutes = require("./mouths-routes");
 var brainsRoutes = require("./brains-routes");
+
+//====================================================
+// Define
+//====================================================
 
 //var Brain = require('../ai/brain');
 // import Brain from '../ai/brain';
@@ -32,6 +46,10 @@ var router = express.Router();
 // 	});
 // })
 
+//====================================================
+// Define routes
+//====================================================
+
 router
 .use(botsRoutes)
 .use(mouthsRoutes)
@@ -43,12 +61,12 @@ router.route("*").all(function(req, res) {
 	});
 })
 
-/*
-fetch('http://localhost:3000/message', {
-    method: 'POST',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
-    body: encodeURI("user=Tony&message=What's your name"),
-}).then(json => json.json()).then((data) => {console.log(data)});
-*/
+//====================================================
+// Export
+//====================================================
 
 module.exports = router;
+
+//====================================================
+// End
+//====================================================

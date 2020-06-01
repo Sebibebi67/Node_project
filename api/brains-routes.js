@@ -1,32 +1,33 @@
+//====================================================
+// Require
+//====================================================
+
+//======================
+// Vendors
+
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+
+//======================
+// Own
+
+//
+
+//====================================================
+// Define
+//====================================================
 
 const PATH = "./data/brains";
 
 var router = express.Router();
 
-//===========================
-// Load AI
+//====================================================
+// Define Routes
+//====================================================
 
-
-//===========================
-// TEST
-
-// $ cd ./NodeBot
-
-// $ curl -X GET http://localhost:3000/api/brains | python -m json.tool
-// $ curl -X POST http://localhost:3000/api/brains -F "file=@./test/brain.rive" && echo
-
-
-// $ curl -X GET http://localhost:3000/api/brain/6 | python -m json.tool
-// $ curl -X PUT http://localhost:3000/api/brain/6 -F "file=@./test/brain.rive" && echo
-
-//===========================
-// Routes
-
-//=================
-// brains Collection
+//======================
+// Brains Collection
 
 router.route("/brains")
 .get(function(req, res){ 										// ====GET====
@@ -132,7 +133,7 @@ router.route("/brains")
 })
 
 //=================
-// brain ID
+// Brain ID
 
 router.route("/brain/:id")
 .get(function(req, res){ 										// ====GET====
@@ -225,8 +226,12 @@ router.route("/brain/:id")
 	});
 })
 
-//===========================
+//====================================================
 // Export
+//====================================================
 
 module.exports = router;
 
+//====================================================
+// End
+//====================================================

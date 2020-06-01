@@ -1,0 +1,91 @@
+//====================================================
+// Require
+//====================================================
+
+//======================
+// Vendors
+
+var fs = require('fs');
+
+//======================
+// Own
+
+var Brain = require('./brain');
+
+//====================================================
+// Define
+//====================================================
+
+const BOT_PATH = "./data/bots/";
+const BRAIN_PATH = "./data/brains/";
+const MOUTH_PATH = "./data/mouths/";
+const NAME = "Ally";
+
+//====================================================
+// Class
+//====================================================
+
+class BotsManager {
+	
+	constructor (){
+		this.bots = {}
+	}
+
+	async loadBots(){
+
+		let files;
+		try {
+			files = fs.readdirSync(BOT_PATH);
+		} catch(e) {
+			console.log("Error reading the directory");
+			return "Error reading the BOT_PATH directory";
+		}
+
+		let list = {};
+		files.forEach(function (file) {
+			let f = fs.readFileSync(BOT_PATH+file)
+			let id = parseInt(file.trim(".json"));
+		
+			let bot = JSON.parse(f);
+			list[id] = bot;
+		});
+
+		for (let id in this.bots){
+			let stillIn = false;
+			for (let id2 in list){
+				if (id2 == id){
+					stillIn = true;
+				}
+			}
+			if (!stillIn){
+				delete this.bots[id];
+			}
+		}
+
+		for (let id in list){
+			let bot = list[id];
+			if (bot.state){
+				this.bots[id] = {
+					"brain": new Brain("Bot"+id, bot.mouths.map(value => BRAIN_PATH+value+".rive")),
+					"name": ""
+				}
+				await this.bots[id].brain.loading().then(() => {
+					this.bots[id].brain.loadingDone();
+				}).catch(err => {
+					throw err
+				});
+			}
+		}
+	}
+}
+
+//====================================================
+// Export
+//====================================================
+
+module.exports = BotsManager;
+
+
+//====================================================
+// End
+//====================================================

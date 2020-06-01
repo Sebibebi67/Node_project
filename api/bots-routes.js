@@ -1,6 +1,22 @@
+//====================================================
+// Require
+//====================================================
+
+//======================
+// Vendors
+
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+
+//======================
+// Own
+
+var BotManager = require("../bot/bot-manager")
+
+//====================================================
+// Define
+//====================================================
 
 const PATH = "./data/bots";
 const BRAIN_PATH = "./data/brains";
@@ -8,25 +24,24 @@ const MOUTH_PATH = "./data/mouths";
 
 var router = express.Router();
 
-//===========================
-// TEST
+//======================
+// Load AI
 
-// $ cd ./NodeBot
+let botManager = new BotManager();
+botManager.loadBots().then(() => {
+	console.log("Bots loaded");
+	console.log(botManager);
+}).catch(err => {
+	console.log(err);
+	process.exit(1);
+})
 
-// $ curl -X GET http://localhost:3000/api/bots | python -m json.tool
-// $ curl -X POST http://localhost:3000/api/bots -F "file=@./tests/bot.json" && echo
+//====================================================
+// Define Routes
+//====================================================
 
-
-// $ curl -X GET http://localhost:3000/api/bot/6 | python -m json.tool
-// $ curl -X PUT http://localhost:3000/api/bot/6 -F "file=@./tests/bot.json" && echo
-// $ curl -X DELETE http://localhost:3000/api/bot/6 && echo
-// $ curl -X PATCH --data-urlencode "type=discord" --data-urlencode "token=discord-token" http://localhost:3000/api/bot/6 && echo
-
-//===========================
-// Routes
-
-//=================
-// bots Collection
+//======================
+// Bots Collection
 
 router.route("/bots")
 .get(function(req, res){ 										// ====GET====
@@ -147,6 +162,14 @@ router.route("/bots")
 				});
 			}
 
+			botManager.loadBots().then(() => {
+				console.log("Bots loaded");
+				console.log(botManager);
+			}).catch(err => {
+				console.log(err);
+				process.exit(1);
+			})
+
 			res.setHeader('Location', "/api/bot/"+max)
 			return res.status(201).json({						// 201 - Created
 				"success" : "Created",
@@ -174,8 +197,8 @@ router.route("/bots")
 	});
 })
 
-//=================
-// bot ID
+//======================
+// Bot ID
 
 router.route("/bot/:id")
 .get(function(req, res){ 										// ====GET====
@@ -272,6 +295,15 @@ router.route("/bot/:id")
 				"error": 'Not Found'
 			});
 		}
+
+		botManager.loadBots().then(() => {
+			console.log("Bots loaded");
+			console.log(botManager);
+		}).catch(err => {
+			console.log(err);
+			process.exit(1);
+		})
+
 		if (isAlready){
 			return res.status(200).json({						// 200 - OK
 				"success" : "Updated",
@@ -308,6 +340,14 @@ router.route("/bot/:id")
 			newData = JSON.stringify(mouth);
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newData);
 
+			botManager.loadBots().then(() => {
+				console.log("Bots loaded");
+				console.log(botManager);
+			}).catch(err => {
+				console.log(err);
+				process.exit(1);
+			})
+
 			return res.status(200).json({						// 200 - OK
 				"success" : "Updated",
 			});
@@ -325,6 +365,15 @@ router.route("/bot/:id")
 				"error": "Not Found"
 			});
 		}
+		
+		botManager.loadBots().then(() => {
+			console.log("Bots loaded");
+			console.log(botManager);
+		}).catch(err => {
+			console.log(err);
+			process.exit(1);
+		})
+
 		return res.status(200).json({							// 200 - OK
 			"success": "Deleted"
 		});
@@ -336,7 +385,12 @@ router.route("/bot/:id")
 	res.send('Method Not Allowed');
 })
 
-//===========================
+//====================================================
 // Export
+//====================================================
 
 module.exports = router;
+
+//====================================================
+// End
+//====================================================
