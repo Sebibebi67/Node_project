@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
 	"state" : true,
 	"brains" : [
@@ -7,3 +8,6 @@
 		1
 	]
 }
+=======
+{"state":true,"brains":[1],"mouths":[1]}
+>>>>>>> 3f9f55c2a550a49294f32f38472349b90a516005
