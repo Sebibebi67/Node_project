@@ -19,6 +19,7 @@ var fs = require('fs');
 //====================================================
 
 const PATH = "./data/mouths";
+const BOT_PATH = "./data/bots";
 
 var router = express.Router();
 
@@ -170,6 +171,12 @@ router.route("/mouth/:id")
 			"error" : "Too Many Files"
 		});
 	}
+	
+	if (req.params.id <= 0){
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "ID cannot be less than 1"
+		});
+	}
 
 	let isAlready = true;
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {
@@ -274,14 +281,42 @@ router.route("/mouth/:id")
 	});
 })
 .delete(function(req, res){ 									// ====DELETE====
-	fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
-		if (err){
-			return res.status(404).json({						// 404 - Not Found
-				"error": "Not Found"
+	fs.readdir(BOT_PATH, function(err, files){
+		
+		if (err) {
+			return res.status(500).json({						// 500 - Internal Server Error
+				"error" : "Internal Server Error"
+			});
+		} 
+		
+		let linkedWith = [];
+		files.forEach(function (file) {
+			let f = fs.readFileSync(BOT_PATH+"/"+file)
+			let id = parseInt(file.trim(".json"));
+		
+			let bot = JSON.parse(f);
+			//console.log(bot);
+			if (bot.brains.includes(parseInt(req.params.id))){
+				linkedWith.push("/api/bot/"+id);
+			}
+		});
+
+		if (linkedWith.length != 0){
+			return res.status(409).json({						// 500 - Internal Server Error
+				"error" : "Conflict : Resource linked to a bot",
+				"linked-with" : linkedWith
 			});
 		}
-		return res.status(200).json({							// 200 - OK
-			"success": "Deleted"
+
+		fs.unlink(PATH+"/"+req.params.id+".json", function(err) {
+			if (err){
+				return res.status(404).json({						// 404 - Not Found
+					"error": "Not Found"
+				});
+			}
+			return res.status(200).json({							// 200 - OK
+				"success": "Deleted"
+			});
 		});
 	});
 })

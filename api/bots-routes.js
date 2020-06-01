@@ -226,6 +226,12 @@ router.route("/bot/:id")
 		});
 	}
 
+	if (req.params.id <= 0){
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "ID cannot be less than 1"
+		});
+	}
+
 	let isAlready = true;
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {
 		if (err){
@@ -322,9 +328,15 @@ router.route("/bot/:id")
 			});
 		}
 
-		if (req.body.state != undefined){
-	
-			let mouth = JSON.parse(data);
+		console.log(req.body);
+
+		if (req.body.state != undefined || req.body.addmouth != undefined){
+
+			let bot = JSON.parse(data);
+
+			if (req.body.addmouth != undefined){
+				console.log(req.body.addmouth);
+			}
 
 			if (req.body.state != undefined){
 				if (req.body.state != "true" 
@@ -334,10 +346,10 @@ router.route("/bot/:id")
 						"error": 'state can be true or false'
 					});
 				}
+				bot.state = req.body.state==="true"?true:false;
 			}
-			mouth.state = req.body.status==="true"?true:false;
 
-			newData = JSON.stringify(mouth);
+			newData = JSON.stringify(bot);
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newData);
 
 			botManager.loadBots().then(() => {
@@ -381,8 +393,9 @@ router.route("/bot/:id")
 })
 .post(function(req, res){ 										// ====POST====
 
-	res.status(405);
-	res.send('Method Not Allowed');
+	return res.status(405).json({							// 400- Bad request
+		"error" : "Method Not Allowed",
+	});
 })
 
 //====================================================

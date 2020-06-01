@@ -6,11 +6,13 @@
 // Vendors
 
 var fs = require('fs');
+//const axios = require('axios');
 
 //======================
 // Own
 
 var Brain = require('./brain');
+var NAMES = ["Ally", "Steve", "Max", "Lucie", "Astrid", "Tommy"];
 
 //====================================================
 // Define
@@ -19,7 +21,6 @@ var Brain = require('./brain');
 const BOT_PATH = "./data/bots/";
 const BRAIN_PATH = "./data/brains/";
 const MOUTH_PATH = "./data/mouths/";
-const NAME = "Ally";
 
 //====================================================
 // Class
@@ -47,7 +48,10 @@ class BotsManager {
 			let id = parseInt(file.trim(".json"));
 		
 			let bot = JSON.parse(f);
-			list[id] = bot;
+			
+			if (bot.state){
+				list[id] = bot;
+			}
 		});
 
 		for (let id in this.bots){
@@ -64,17 +68,29 @@ class BotsManager {
 
 		for (let id in list){
 			let bot = list[id];
-			if (bot.state){
-				this.bots[id] = {
-					"brain": new Brain("Bot"+id, bot.mouths.map(value => BRAIN_PATH+value+".rive")),
-					"name": ""
-				}
-				await this.bots[id].brain.loading().then(() => {
-					this.bots[id].brain.loadingDone();
-				}).catch(err => {
-					throw err
-				});
+
+			let name = (parseInt(id) <= NAMES.length)?NAMES[parseInt(id)-1]:undefined;
+			this.bots[id] = {
+				"brain": new Brain("Bot"+id, bot.mouths.map(value => BRAIN_PATH+value+".rive")),
+				"name": name
 			}
+
+			/*let t = this
+			await axios.get("https://api.namefake.com/french-france/random")
+			.then(function (response) {
+				t.bots[id].name = response.data.name.split(" ")[0];
+			})
+			.catch(function (error) {
+				console.log("An error occurred while fetching name from \"api.namefake.com\"");
+				t.bots[id].name = "ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
+			})*/
+			//this.bots[id].name = "ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
+
+			await this.bots[id].brain.loading().then(() => {
+				this.bots[id].brain.loadingDone();
+			}).catch(err => {
+				throw err
+			});
 		}
 	}
 }
