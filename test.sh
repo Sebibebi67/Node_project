@@ -307,6 +307,9 @@ set -e
 # Checks if the end of the File is a blank line
 checkEndOfFile
 
+# Removes \r\n from windows format
+sed -i 's/\r$//' request.txt
+
 # The user wants to see the short version
 if [[ $# == 0 || $1 == '-s' || $1 == '-short' ]]; then
 	title "=" "REST API Tester"
