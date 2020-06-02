@@ -62,7 +62,7 @@ curl -X DELETE http://localhost:3000/api/mouth/6 ; {"error":"Not Found"} ; 404
 curl -X DELETE http://localhost:3000/api/mouth/2 ; {"success":"Deleted"} ; 200
 
 #POST is not allowed
-curl -X POST http://localhost:3000/api/mouth/6 -F file=@./tests/mouth_web.json ; {"error":"Method Not Allowed"} ; 405
+curl -X POST http://localhost:3000/api/mouth/6 ; {"error":"Method Not Allowed"} ; 405
 
 #********************************************************************************#
 ++ Brains ++
@@ -93,7 +93,7 @@ curl -X DELETE http://localhost:3000/api/brain/6 ; {"error":"Not Found"} ; 404
 curl -X DELETE http://localhost:3000/api/brain/2 ; {"success":"Deleted"} ; 200
 
 #POST is not allowed
-curl -X POST http://localhost:3000/api/brain/6 -F file=@./tests/mouth_web.json ; {"error":"Method Not Allowed"} ; 405
+curl -X POST http://localhost:3000/api/brain/6 ; {"error":"Method Not Allowed"} ; 405
 
 #********************************************************************************#
 ++ Bots ++
@@ -121,7 +121,6 @@ curl -X PUT http://localhost:3000/api/bot/2 -F file=@./tests/bot.json ; {"succes
 curl -X PUT http://localhost:3000/api/bot/1 -F file=@./tests/bot.json ; {"success":"Updated"} ; 200
 
 # PATCH on non-existing then existing mouths, with and without body
-curl -X PATCH --data-urlencode type=discord --data-urlencode token=null http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
 curl -X PATCH http://localhost:3000/api/bot/1 ; {"error":"No body sended"} ; 400
 curl -X PATCH --data-urlencode state=false http://localhost:3000/api/bot/1 ; {"success":"Updated"} ; 200
 
@@ -130,7 +129,7 @@ curl -X DELETE http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
 curl -X DELETE http://localhost:3000/api/bot/2 ; {"success":"Deleted"} ; 200
 
 #POST is not allowed
-curl -X POST http://localhost:3000/api/bot/6 -F file=@./tests/mouth_web.json ; {"error":"Method Not Allowed"} ; 405
+curl -X POST http://localhost:3000/api/bot/6 ; {"error":"Method Not Allowed"} ; 405
 
 #--------------------------------------------------------------------------------#
 
@@ -145,8 +144,16 @@ curl -X DELETE http://localhost:3000/api/mouth/1 ; {"success":"Deleted"} ; 200
 #********************************************************************************#
 
 curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain2.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
+
 curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_discord.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
+
 curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+
+curl -X PATCH http://localhost:3000/api/bot/1 --data-urlencode addbrain=2 ; {"success":"Updated"} ; 200
+curl -X PATCH http://localhost:3000/api/bot/2 --data-urlencode addmouth=2 --data-urlencode delmouth=1 ; {"success":"Updated"} ; 200
 
 #================================================================================#
 

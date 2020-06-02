@@ -177,6 +177,12 @@ router.route("/mouth/:id")
 			"error" : "ID cannot be less than 1"
 		});
 	}
+	
+	if (!Number.isInteger(parseInt(req.params.id))){
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "ID must be an integer"
+		});
+	}
 
 	let isAlready = true;
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err) => {

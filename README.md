@@ -21,7 +21,15 @@ npm start
 
 ## **Use the API**
 
-[Documentation API](./tests/DOC.MD)
+[Documentation API](./ressources/wiki/DOC.MD)
+
+## **Discord mouth**
+
+[Documentation API](./ressources/wiki/DISCORD.MD)
+
+## **Web mouth**
+
+N/A
 
 ## **Testing Script**
 

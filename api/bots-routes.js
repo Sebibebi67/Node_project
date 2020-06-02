@@ -28,13 +28,7 @@ var router = express.Router();
 // Load AI
 
 let botManager = new BotManager();
-botManager.loadBots().then(() => {
-	console.log("Bots loaded");
-	console.log(botManager);
-}).catch(err => {
-	console.log(err);
-	process.exit(1);
-})
+botManager.load();
 
 //====================================================
 // Define Routes
@@ -162,13 +156,7 @@ router.route("/bots")
 				});
 			}
 
-			botManager.loadBots().then(() => {
-				console.log("Bots loaded");
-				console.log(botManager);
-			}).catch(err => {
-				console.log(err);
-				process.exit(1);
-			})
+			botManager.load();
 
 			res.setHeader('Location', "/api/bot/"+max)
 			return res.status(201).json({						// 201 - Created
@@ -229,6 +217,12 @@ router.route("/bot/:id")
 	if (req.params.id <= 0){
 		return res.status(400).json({							// 400 - Bad Request
 			"error" : "ID cannot be less than 1"
+		});
+	}
+
+	if (!Number.isInteger(parseInt(req.params.id))){
+		return res.status(400).json({							// 400 - Bad Request
+			"error" : "ID must be an integer"
 		});
 	}
 
@@ -302,13 +296,7 @@ router.route("/bot/:id")
 			});
 		}
 
-		botManager.loadBots().then(() => {
-			console.log("Bots loaded");
-			console.log(botManager);
-		}).catch(err => {
-			console.log(err);
-			process.exit(1);
-		})
+		botManager.load();
 
 		if (isAlready){
 			return res.status(200).json({						// 200 - OK
@@ -329,22 +317,90 @@ router.route("/bot/:id")
 		}
 
 		if (req.body.state != undefined 
-			|| req.body.addmouth != undefined || req.body.delmouth != undefined 
-			|| req.body.addbrain != undefined  || req.body.delbrain != undefined ){
+			|| req.body.addmouth != undefined && req.body.addmouth != "" 
+			|| req.body.delmouth != undefined && req.body.delmouth != ""
+			|| req.body.addbrain != undefined && req.body.addbrain != "" 
+			|| req.body.delbrain != undefined && req.body.delbrain != "" ){
 
 			let bot = JSON.parse(data);
 
 			if (req.body.addmouth != undefined){
-				console.log(req.body.addmouth);
+				try{
+					fs.readFileSync(MOUTH_PATH+"/"+req.body.addmouth+'.json')
+				} catch (err){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "This mouth doesn't exists"
+					});
+				}
+				let id = parseInt(req.body.addmouth);
+				if (!Number.isInteger(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "Mouth must be an ID"
+					});
+				}
+				if (bot.mouths.includes(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "Mouth already in"
+					});
+				}
+				bot.mouths.push(id);
 			}
 			if (req.body.delmouth != undefined){
-				console.log(req.body.delmouth);
+				let id = parseInt(req.body.delmouth);
+				if (!Number.isInteger(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "Mouth must be an ID"
+					});
+				}
+				if (!bot.mouths.includes(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "This mouth cannot be deleted"
+					});
+				}
+				bot.mouths = bot.mouths.filter((value) => {
+					if (value != id) {
+						return value;
+					}
+				});
 			}
 			if (req.body.addbrain != undefined){
-				console.log(req.body.addbrain);
+				try{
+					fs.readFileSync(BRAIN_PATH+"/"+req.body.addbrain+'.rive');
+				} catch (err){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "This brain doesn't exists"
+					});
+				}
+				let id = parseInt(req.body.addbrain);
+				if (!Number.isInteger(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "Mouth must be an ID"
+					});
+				}
+				if (bot.brains.includes(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "Brain already in"
+					});
+				}
+				bot.brains.push(id);
 			}
 			if (req.body.delbrain != undefined){
-				console.log(req.body.delbrain);
+				let id = parseInt(req.body.delbrain);
+				if (!Number.isInteger(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "Mouth must be an ID"
+					});
+				}
+				if (!bot.brains.includes(id)){
+					return res.status(400).json({				// 400 - Bad Request
+						"error": "This brain cannot be deleted"
+					});
+				}
+				bot.brains = bot.brains.filter((value) => {
+					if (value != id) {
+						return value;
+					}
+				});
 			}
 
 			if (req.body.state != undefined){
@@ -361,12 +417,7 @@ router.route("/bot/:id")
 			newData = JSON.stringify(bot);
 			fs.writeFileSync(PATH+"/"+req.params.id+'.json', newData);
 
-			botManager.loadBots().then(() => {
-				console.log(botManager);
-			}).catch(err => {
-				console.log(err);
-				process.exit(1);
-			})
+			botManager.load();
 
 			return res.status(200).json({						// 200 - OK
 				"success" : "Updated",
@@ -386,13 +437,7 @@ router.route("/bot/:id")
 			});
 		}
 		
-		botManager.loadBots().then(() => {
-			console.log("Bots loaded");
-			console.log(botManager);
-		}).catch(err => {
-			console.log(err);
-			process.exit(1);
-		})
+		botManager.load();
 
 		return res.status(200).json({							// 200 - OK
 			"success": "Deleted"

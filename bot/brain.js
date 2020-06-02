@@ -35,6 +35,7 @@ class Brain {
 	 * Loads a directory which contains the .rive files
 	 */
 	loading(){
+		//console.log("Load");
 		return this.bot.loadFile(this.files);
 	}
 	
@@ -43,6 +44,7 @@ class Brain {
 	 */
 	loadingDone(){
 		//console.log("Success Loading\n");
+		//console.log("Sort");
 		this.bot.sortReplies();
     }
     

@@ -1,8 +1,18 @@
 
 
-+ hello *
-- Hello I'm a test
++ hello
+- Hello I'm $name
+
++ script 1
+- I use the 1.rive script
 
 + *
 - I dont know this command, please use "hello".
 
+# Discord NodeBot Documentation
+
+## Commands
+
+```
+!who
+```
