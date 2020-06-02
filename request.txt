@@ -54,7 +54,7 @@ curl -X PUT http://localhost:3000/api/mouth/1 -F file=@./tests/mouth_discord.jso
 # PATCH on non-existing then existing mouths, with and without body
 curl -X PATCH --data-urlencode type=discord --data-urlencode token=null http://localhost:3000/api/mouth/6 ; {"error":"Not Found"} ; 404
 curl -X PATCH http://localhost:3000/api/mouth/1 ; {"error":"No Body Sended"} ; 400
-curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/1 ; {"success":"Updated"} ; 200
+#curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/1 ; {"success":"Updated"} ; 200
 
 #DELETE on non-existing then existing mouths
 curl -X DELETE http://localhost:3000/api/mouth/6 ; {"error":"Not Found"} ; 404
@@ -128,7 +128,7 @@ curl -X DELETE http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
 curl -X DELETE http://localhost:3000/api/bot/2 ; {"success":"Deleted"} ; 200
 
 #POST is not allowed
-curl -X POST http://localhost:3000/api/bot/6 ; {"error":"Method Not Allowed"} ; 405
+curl -X POST http://localhost:3000/api/bot/1 ; {"error", "} ; 409
 
 #--------------------------------------------------------------------------------#
 
@@ -139,7 +139,7 @@ curl -X DELETE http://localhost:3000/api/brain/1 ; {"success":"Deleted"} ; 200
 curl -X DELETE http://localhost:3000/api/mouth/1 ; {"success":"Deleted"} ; 200
 
 #********************************************************************************#
-++ Use of the API ++
+++ Prepare to use ++
 #********************************************************************************#
 
 curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
@@ -150,10 +150,30 @@ curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_discord.jso
 
 curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
 curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
 
-curl -X PATCH http://localhost:3000/api/bot/1 --data-urlencode addbrain=2 ; {"success":"Updated"} ; 200
+curl -X PATCH http://localhost:3000/api/bot/1 --data-urlencode addbrain=2 --data-urlencode addmouth=2 ; {"success":"Updated"} ; 200
 curl -X PATCH http://localhost:3000/api/bot/2 --data-urlencode addmouth=2 --data-urlencode delmouth=1 ; {"success":"Updated"} ; 200
+#curl -X PATCH http://localhost:3000/api/bot/3 --data-urlencode addmouth=2 ; {"success":"Updated"} ; 200
+curl -X PATCH http://localhost:3000/api/bot/5 --data-urlencode addmouth=2 ; {"success":"Updated"} ; 200
+curl -X PATCH --data-urlencode state=false http://localhost:3000/api/bot/4 ; {"success":"Updated"} ; 200
+
+curl -X GET http://localhost:3000/api/bots ; {bots} ; 200
+
+#********************************************************************************#
+++ Talk to bots ++
+#********************************************************************************#
+
+curl -X POST http://localhost:3000/api/bot/1 ; {"error" : "No Message"} ; 400
+curl -X POST http://localhost:3000/api/bot/1 --data-urlencode message=hello ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/2 ; {"error" : "This bot has no web mouth"} ; 409
+curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message=hello ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/4 ; {"error" : "This bot is offline"} ; 409
+curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message=hello ; {"error" : "No Message"} ; 200
 
 #================================================================================#
+
 
 

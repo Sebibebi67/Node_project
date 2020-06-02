@@ -445,10 +445,37 @@ router.route("/bot/:id")
 	});
 })
 .post(function(req, res){ 										// ====POST====
+	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
+		if (err){
+			return res.status(404).json({						// 404 - Not Found
+				"error": 'Not Found' 
+			});
+		}
 
+		if (botManager.bots[parseInt(req.params.id)] == undefined){
+			return res.status(409).json({						// 409 - Conflict
+				"error": "This bot is offline"
+			});
+		}
 
-	return res.status(405).json({							// 400- Bad request
-		"error" : "Method Not Allowed",
+		if (botManager.bots[req.params.id].web != true){
+			return res.status(409).json({						// 409 - Conflict
+				"error": "This bot has no web mouth"
+			});
+		}
+
+		if (req.body.message == undefined || req.body.message == ""){
+			return res.status(400).json({						// 400 - Bad request
+				"error" : "No Body Sended",
+			});
+		}
+
+		botManager.bots[req.params.id].brain.response("user", req.body.message).then(reply => {
+			return res.status(200).json({						// 200 - OK
+				"name" : botManager.bots[req.params.id].name,
+				"message" : reply.split("$name").join(botManager.bots[req.params.id].name),
+			});		
+		})
 	});
 })
 
