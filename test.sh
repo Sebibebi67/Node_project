@@ -191,15 +191,16 @@ readingOutput(){
 	# - Sébastien HERT
 	###
 
-	command=$(echo $line | cut -d';' -f1 )
+	command="$(echo $line | cut -d';' -f1 )"
 
 	expected=$(echo $(echo $line | cut -d';' -f2 ))
 
 	statusExpected=$(echo $(echo $line | cut -d';' -f3 | sed 's/[^0-9]//g'))
 
 	fullOutput=${command/-X/'--write-out %{http_code} --silent -X'}
-	
-	output=$($fullOutput)
+
+	output=$(eval $fullOutput)
+
 
 
 	status=${output: -3}
@@ -360,6 +361,7 @@ elif [[ $# == 2 && ( $1 == '-l' || $1 == '-line') ]]; then
 		if [[ $nbLine == $2 ]]; then
 			lineRead="True"
 			if [[ "${line::1}" == [a-z] ]]; then
+				# echo read
 				readingOutput
 				completeDisplay
 
