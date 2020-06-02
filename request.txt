@@ -156,7 +156,7 @@ curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"succes
 
 curl -X PATCH http://localhost:3000/api/bot/1 --data-urlencode addbrain=2 --data-urlencode addmouth=2 ; {"success":"Updated"} ; 200
 curl -X PATCH http://localhost:3000/api/bot/2 --data-urlencode addmouth=2 --data-urlencode delmouth=1 ; {"success":"Updated"} ; 200
-curl -X PATCH http://localhost:3000/api/bot/3 --data-urlencode addbrain=2 ; {"success":"Updated"} ; 200
+#curl -X PATCH http://localhost:3000/api/bot/3 ; {"success":"Updated"} ; 200
 curl -X PATCH http://localhost:3000/api/bot/5 --data-urlencode addmouth=2 --data-urlencode addbrain=2 ; {"success":"Updated"} ; 200
 curl -X PATCH --data-urlencode state=false http://localhost:3000/api/bot/4 ; {"success":"Updated"} ; 200
 
@@ -173,12 +173,9 @@ curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message=hello ; {[
 curl -X POST http://localhost:3000/api/bot/4 ; {"error" : "This bot is offline"} ; 409
 curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message=hello ; {[Object]} ; 200
 
-#********************************************************************************#
-++ Long message crash ++
-#********************************************************************************#
-
-curl -X POST http://localhost:3000/api/bot/1 --data-urlencode message=Hello, how are you ? ; {[Object]} ; 200
-curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message=Hello, how are you ? ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message='hello bot' ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message='hello bot' ; {[Object]} ; 200
 
 #================================================================================#
+
 
