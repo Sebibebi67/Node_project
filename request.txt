@@ -173,6 +173,12 @@ curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message=hello ; {[
 curl -X POST http://localhost:3000/api/bot/4 ; {"error" : "This bot is offline"} ; 409
 curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message=hello ; {"error" : "No Message"} ; 200
 
+#********************************************************************************#
+++ Long message crash ++
+#********************************************************************************#
+
+curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message="Hello, how are you" ; {"error" : "No Message"} ; 200
+
 #================================================================================#
 
 
