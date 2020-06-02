@@ -1,0 +1,181 @@
+#================================= request.txt ==================================#
+
+
+#--------------------------------- Description ----------------------------------#
+#
+# This file contains the requests used in the shell script test.sh
+#
+#--------------------------------------------------------------------------------#
+
+
+#------------------------------------ Syntax ------------------------------------#
+#
+# If you want to comment a line, you can use "#"
+# If you want to display a title, tou can use "++ Title ++"
+# Use the following syntax "command ; outputExpected ; statusExpected"
+# 
+#--------------------------------------------------------------------------------#
+
+
+#----------------------------------- Authors ------------------------------------#
+#
+# Tony CHOUTEAU
+# Sébastien HERT
+#
+#--------------------------------------------------------------------------------#
+
+
+#----------------------------------- Requests -----------------------------------#
+
+#********************************************************************************#
+++ Mouths ++
+#********************************************************************************#
+
+# GET request on empty directory then POST a mouth and GET it
+curl -X GET http://localhost:3000/api/mouths ; {} ; 200
+curl -X POST http://localhost:3000/api/mouths ; {"error":"No File"} ; 400
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json -F file2=@./tests/mouth_web.json ; {"error":"Too Many Files"} ; 400
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
+curl -X GET http://localhost:3000/api/mouths ; {"1":{"type":"web","token":null,"link":null}} ; 200
+
+# Bad requests because methods are not allowed
+curl -X PUT http://localhost:3000/api/mouths ; {"error":"Method Not Allowed"} ; 405
+curl -X PATCH http://localhost:3000/api/mouths ; {"error":"Method Not Allowed"} ; 405
+curl -X DELETE http://localhost:3000/api/mouths ; {"error":"Method Not Allowed"} ; 405
+
+# GET request on non-existing then existing mouths
+curl -X GET http://localhost:3000/api/mouth/6 ; {"error":"Not Found"} ; 404
+curl -X GET http://localhost:3000/api/mouth/1 ; {"type":"web","token":null,"link":null} ; 200
+
+# PUT request on non-existing then existing mouths
+curl -X PUT http://localhost:3000/api/mouth/2 -F file=@./tests/mouth_web.json ; {"success":"Created"} ; 201
+curl -X PUT http://localhost:3000/api/mouth/1 -F file=@./tests/mouth_discord.json ; {"success":"Updated"} ; 200
+
+# PATCH on non-existing then existing mouths, with and without body
+curl -X PATCH --data-urlencode type=discord --data-urlencode token=null http://localhost:3000/api/mouth/6 ; {"error":"Not Found"} ; 404
+curl -X PATCH http://localhost:3000/api/mouth/1 ; {"error":"No Body Sended"} ; 400
+#curl -X PATCH --data-urlencode type=discord --data-urlencode token=discord-token http://localhost:3000/api/mouth/1 ; {"success":"Updated"} ; 200
+
+#DELETE on non-existing then existing mouths
+curl -X DELETE http://localhost:3000/api/mouth/6 ; {"error":"Not Found"} ; 404
+curl -X DELETE http://localhost:3000/api/mouth/2 ; {"success":"Deleted"} ; 200
+
+#POST is not allowed
+curl -X POST http://localhost:3000/api/mouth/6 ; {"error":"Method Not Allowed"} ; 405
+
+#********************************************************************************#
+++ Brains ++
+#********************************************************************************#
+
+# GET request on empty directory then POST a mouth and GET it
+curl -X GET http://localhost:3000/api/brains ; [] ; 200
+curl -X POST http://localhost:3000/api/brains ; {"error":"No File"} ; 400
+curl -X POST http://localhost:3000/api/brains -F file=@./tests/mouth_web.json ; {"error":"Not a Rive File"} ; 400
+curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain.rive ; {"success":"Created","location":"/api/brain/1"} ; 201
+curl -X GET http://localhost:3000/api/brains ; [1] ; 200
+
+# Bad requests because methods are not allowed
+curl -X PUT http://localhost:3000/api/brains ; {"error":"Method Not Allowed"} ; 405
+curl -X PATCH http://localhost:3000/api/brains ; {"error":"Method Not Allowed"} ; 405
+curl -X DELETE http://localhost:3000/api/brains ; {"error":"Method Not Allowed"} ; 405
+
+# GET request on non-existing then existing mouths
+curl -X GET http://localhost:3000/api/brain/6 ; {"error":"Not Found"} ; 404
+curl -X GET http://localhost:3000/api/brain/1 ; reading a rive file ; 200
+
+# PUT request on non-existing then existing mouths
+curl -X PUT http://localhost:3000/api/brain/2 -F file=@./tests/brain.rive ; {"success":"Created"} ; 201
+curl -X PUT http://localhost:3000/api/brain/1 -F file=@./tests/brain.rive ; {"success":"Updated"} ; 200
+
+#DELETE on non-existing then existing mouths
+curl -X DELETE http://localhost:3000/api/brain/6 ; {"error":"Not Found"} ; 404
+curl -X DELETE http://localhost:3000/api/brain/2 ; {"success":"Deleted"} ; 200
+
+#POST is not allowed
+curl -X POST http://localhost:3000/api/brain/6 ; {"error":"Method Not Allowed"} ; 405
+
+#********************************************************************************#
+++ Bots ++
+#********************************************************************************#
+
+# GET request on empty directory then POST a mouth and GET it
+curl -X GET http://localhost:3000/api/bots ; {} ; 200
+curl -X POST http://localhost:3000/api/bots ; {"error":"No File"} ; 400
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/mouth_web.json ; {"error":"Bad Json Data"} ; 400
+
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X GET http://localhost:3000/api/bots ; {"1":{"state":true,"brains":[1],"mouths":[1]}} ; 200
+
+# Bad requests because methods are not allowed
+curl -X PUT http://localhost:3000/api/bots ; {"error":"Method Not Allowed"} ; 405
+curl -X PATCH http://localhost:3000/api/bots ; {"error":"Method Not Allowed"} ; 405
+curl -X DELETE http://localhost:3000/api/bots ; {"error":"Method Not Allowed"} ; 405
+
+# GET request on non-existing then existing mouths
+curl -X GET http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
+curl -X GET http://localhost:3000/api/bot/1 ; {"state":true,"brains":[1],"mouths":[1]} ; 200
+
+# PUT request on non-existing then existing mouths
+curl -X PUT http://localhost:3000/api/bot/2 -F file=@./tests/bot.json ; {"success":"Created"} ; 201
+curl -X PUT http://localhost:3000/api/bot/1 -F file=@./tests/bot.json ; {"success":"Updated"} ; 200
+
+# PATCH on non-existing then existing mouths, with and without body
+curl -X PATCH http://localhost:3000/api/bot/1 ; {"error":"No body sended"} ; 400
+curl -X PATCH --data-urlencode state=false http://localhost:3000/api/bot/1 ; {"success":"Updated"} ; 200
+
+#DELETE on non-existing then existing mouths
+curl -X DELETE http://localhost:3000/api/bot/6 ; {"error":"Not Found"} ; 404
+curl -X DELETE http://localhost:3000/api/bot/2 ; {"success":"Deleted"} ; 200
+
+#POST is not allowed
+curl -X POST http://localhost:3000/api/bot/1 ; {"error", "} ; 409
+
+#--------------------------------------------------------------------------------#
+
+curl -X DELETE http://localhost:3000/api/brain/1 ; {"error":"Conflict : Resource linked to a bot","linked-with":["/api/bot/1"]} ; 409
+curl -X DELETE http://localhost:3000/api/mouth/1 ; {"error":"Conflict : Resource linked to a bot","linked-with":["/api/bot/1"]} ; 409
+curl -X DELETE http://localhost:3000/api/bot/1 ; {"success":"Deleted"} ; 200
+curl -X DELETE http://localhost:3000/api/brain/1 ; {"success":"Deleted"} ; 200
+curl -X DELETE http://localhost:3000/api/mouth/1 ; {"success":"Deleted"} ; 200
+
+#********************************************************************************#
+++ Prepare to use ++
+#********************************************************************************#
+
+curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/brains -F file=@./tests/brain2.rive ; {"success":"Created","location":"/api/bot/1"} ; 201
+
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_web.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
+curl -X POST http://localhost:3000/api/mouths -F file=@./tests/mouth_discord.json ; {"success":"Created","location":"/api/mouth/1"} ; 201
+
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+curl -X POST http://localhost:3000/api/bots -F file=@./tests/bot.json ; {"success":"Created","location":"/api/bot/1"} ; 201
+
+curl -X PATCH http://localhost:3000/api/bot/1 --data-urlencode addbrain=2 --data-urlencode addmouth=2 ; {"success":"Updated"} ; 200
+curl -X PATCH http://localhost:3000/api/bot/2 --data-urlencode addmouth=2 --data-urlencode delmouth=1 ; {"success":"Updated"} ; 200
+#curl -X PATCH http://localhost:3000/api/bot/3 ; {"success":"Updated"} ; 200
+curl -X PATCH http://localhost:3000/api/bot/5 --data-urlencode addmouth=2 --data-urlencode addbrain=2 ; {"success":"Updated"} ; 200
+curl -X PATCH --data-urlencode state=false http://localhost:3000/api/bot/4 ; {"success":"Updated"} ; 200
+
+curl -X GET http://localhost:3000/api/bots ; {bots} ; 200
+
+#********************************************************************************#
+++ Talk to bots ++
+#********************************************************************************#
+
+curl -X POST http://localhost:3000/api/bot/1 ; {"error" : "No Message"} ; 400
+curl -X POST http://localhost:3000/api/bot/1 --data-urlencode message=hello ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/2 ; {"error" : "This bot has no web mouth"} ; 409
+curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message=hello ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/4 ; {"error" : "This bot is offline"} ; 409
+curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message=hello ; {[Object]} ; 200
+
+curl -X POST http://localhost:3000/api/bot/3 --data-urlencode message='hello bot' ; {[Object]} ; 200
+curl -X POST http://localhost:3000/api/bot/5 --data-urlencode message='hello bot' ; {[Object]} ; 200
+
+#================================================================================#
+
+

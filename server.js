@@ -1,40 +1,54 @@
+//====================================================
+// Require
+//====================================================
 
-//===========================
-// Import
+//======================
+// Vendors
 
-// Vendors Modules
 var express = require('express');
-var path = require('path');
+var app = express();
+const fileUpload = require('express-fileupload');
+var bodyParser = require('body-parser');
 
-// Own Modules
-var webRoutes = require('./routes/webRoutes');
-var apiRoutes = require('./routes/apiRoutes');
-var ai = require('./ai/brain');
+//======================
+// Own
 
-//===========================
-// Define
+var webRoutes = require('./web/routes');
+var apiRoutes = require('./api/routes');
+
+//====================================================
+// Init express
+//====================================================
 
 var hostname = 'localhost'; 
 var port = 3000;  
 
-var app = express();
+app.use(fileUpload());
 
-var myRouter = express.Router();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
-//===========================
-// Load AI
-
-ai.load();
-
-//===========================
-// Define routes
-
-app.use(webRoutes);
-app.use(apiRoutes);
-
-//===========================
-// Start the server
-
-app.listen(port, hostname, function(){
-	console.log("To use the API : http://"+ hostname +":"+port+"\n");
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
 });
+
+//====================================================
+// Define routes
+//====================================================
+
+app.use("/", webRoutes);
+app.use("/api", apiRoutes);
+
+//====================================================
+// Start the server
+//====================================================
+
+app.listen(port, hostname, function() {
+	console.log("\nTo use the API : http://"+ hostname +":"+port+"\n");
+});
+
+//====================================================
+// End
+//====================================================
