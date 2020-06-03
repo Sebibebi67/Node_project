@@ -131,7 +131,7 @@ class BotsManager {
 						}
 						if (msg.content.startsWith(name)){
 							let message = msg.content.split(name+" ").join("");
-							brain.response(message.member.id, message).then((reply) => {
+							brain.response(msg.author.id, message).then((reply) => {
 								msg.reply(reply.split("$name").join("**"+name+"**"));
 							});
 							
