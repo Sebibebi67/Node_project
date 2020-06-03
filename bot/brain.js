@@ -31,6 +31,10 @@ class Brain {
 		this.files = files;
 	}
 	
+	getSavedData(){
+		return this.bot.getUservars();
+	}
+
 	/**
 	 * Loads a directory which contains the .rive files
 	 */
