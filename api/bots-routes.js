@@ -487,6 +487,28 @@ router.route("/bot/:id")
 	});
 })
 
+router.route("/bot/:id/data")
+.get((req, res) => {
+
+	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
+		if (err){
+			return res.status(404).json({						// 404 - Not Found
+				"error": 'Not Found' 
+			});
+		}
+
+		if (botManager.bots[parseInt(req.params.id)] == undefined){
+			return res.status(409).json({						// 409 - Conflict
+				"error": "This bot is offline"
+			});
+		}
+
+		botManager.bots[req.params.id].brain.getSavedData().then(data => {
+			res.status(200).json(data);							// 200 - OK
+		});
+	});
+});
+
 //====================================================
 // Export
 //====================================================

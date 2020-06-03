@@ -120,13 +120,6 @@ class BotsManager {
 					let t = this;
 					client.on('message', msg => {
 						if (msg.content == "!who") {
-							/*msg.channel.send("Active bots : " + Object.values(t.bots).filter(bot => bot.token!=undefined?true:false).map((bot) => {
-								if (bot.token != undefined){
-									return bot.name;
-								} else {
-									return "NaN";
-								}
-							}).join(", "));*/
 							msg.reply("**"+name+"**"+", here !");
 						}
 						if (msg.content.startsWith(name)){
