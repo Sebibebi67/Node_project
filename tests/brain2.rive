@@ -23,6 +23,7 @@
 ! var location = localhost
 ! var phone    = 31415926535
 ! var email    = hello@$name.fr
+! var color    = unknown
 
 // Substitutions
 ! sub +         = plus
@@ -529,6 +530,12 @@
 
 + how old am i
 - you are <get age> years old.
+
++ my favorite color is *
+- <set age=<star>>i will remember that your favorite color is <get color>
+
++ what is my favorite color
+- it is <get color>
 
 ! global topics = hello world
 
