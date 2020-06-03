@@ -430,3 +430,19 @@ Example :
 ```bash
 curl -X POST "http://localhost:3000/api/brain/1" && echo
 ```
+---
+## Data
+### Resource "/api/bot/:id/data"
+
+---
+
+#### GET
+
+Example :
+```bash
+curl -X GET "http://localhost:3000/api/bot/1/data" | python -m json.tool
+```
+
+Response:
+
+Json containing a short history of all interactions with the bot
