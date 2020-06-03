@@ -470,7 +470,15 @@ router.route("/bot/:id")
 			});
 		}
 
-		botManager.bots[req.params.id].brain.response("user", req.body.message).then(reply => {
+		let user;
+		if (req.body.name == undefined || req.body.name == ""){
+			user = Math.random();
+		} else {
+			user = req.body.name;
+		}
+		console.log(user);
+
+		botManager.bots[req.params.id].brain.response(user, req.body.message).then(reply => {
 			return res.status(200).json({						// 200 - OK
 				"name" : botManager.bots[req.params.id].name,
 				"message" : reply.split("$name").join(botManager.bots[req.params.id].name),
