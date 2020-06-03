@@ -532,7 +532,7 @@
 - you are <get age> years old.
 
 + my favorite color is *
-- <set age=<star>>i will remember that your favorite color is <get color>
+- <set color=<star>>i will remember that your favorite color is <get color>
 
 + what is my favorite color
 - it is <get color>
