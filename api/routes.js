@@ -55,12 +55,6 @@ router
 .use(mouthsRoutes)
 .use(brainsRoutes);
 
-router.route("*").all(function(req, res) {
-	return res.status(404).json({
-		"error" : "Bad URL"
-	});
-})
-
 //====================================================
 // Export
 //====================================================
