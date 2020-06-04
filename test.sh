@@ -25,7 +25,7 @@
 #  * -h, -help :       	Displays this help
 #  * -s, -short :   	Displays the short version of the test
 #  * -d, -details :    	Displays the detailed version of the test
-#  * -l, -line :      	Execute the line [line] of the file request.txt
+#  * -l, -line :      	Executes the line [line] of the file request.txt
 #
 # [line] : Can only be used with the -line option
 #
@@ -79,7 +79,7 @@ title(){
 	#
 	# Input :
 	# - The color as an option
-	# - The separator (=,-,*, etc)
+	# - The separator (=,-,+, etc)
 	# - The title to display as a String
 	#
 	# Output :
