@@ -2,11 +2,11 @@
 
 ## **Description**
 
-description
+This project presents a way to manage bots and how we can discuss with them. It's an API which is using REST. It allows you to create, update and manage bots, including their brain(s) *-- Rivescript files which describes their behavior --* and their mouth(s) *-- which allows them to talk on different platforms*.
 
 ## **Installation**
 
-This project use node, make sure you have installed it, then do :
+This project uses node, make sure you have installed it, then do :
 
 Install all modules : 
 
@@ -33,7 +33,7 @@ N/A
 
 ## **Testing Script**
 
-The script [test.sh](test.sh) allow you to test some requests written in [request.txt](request.txt).
+The script [test.sh](test.sh) allows you to test some requests written in [request.txt](request.txt).
 
 ### Synopsis
 
@@ -43,7 +43,7 @@ The script [test.sh](test.sh) allow you to test some requests written in [reques
 * -h, -help : *Displays the help*
 * -s, -short : *Displays the short version of the test*
 * -d, -details : *Displays the detailed version of the test*
-* -l, -line : *Execute the line [line] of the file request.txt*
+* -l, -line : *Executes the line [line] of the file request.txt*
 
 [line] :
 
@@ -52,9 +52,19 @@ The script [test.sh](test.sh) allow you to test some requests written in [reques
 ## **Potential Errors**
 
 If you are using windows, [test.sh](test.sh) may encounter this error :
-```Unknown command "\r$"```. To solve this error, you can use one of the following commands : ```sed -i 's/\r$//' test.sh request.txt``` OR ```dos2unix test.sh; dos2unix request.txt```.
+```
+Unknown command "\r$"
+```
+To solve this error, you can use one of the following commands :
+```bash
+sed -i 's/\r$//' test.sh request.txt
+``` 
+OR 
+```bash
+dos2unix test.sh; dos2unix request.txt
+```
 
-## **Author**
+## **Authors**
 
 * Tony CHOUTEAU
 * Sébastien HERT
