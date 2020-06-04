@@ -68,7 +68,7 @@
 		(i.o = function (e, t) {
 			return Object.prototype.hasOwnProperty.call(e, t);
 		}),
-		(i.p = '/web/');
+		(i.p = '/');
 	var l = (this['webpackJsonpnodebot-website'] = this['webpackJsonpnodebot-website'] || []),
 		f = l.push.bind(l);
 	(l.push = t), (l = l.slice());

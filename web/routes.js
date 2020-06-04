@@ -5,9 +5,9 @@ var router = express.Router();
 
 router.use(express.static(path.join(__dirname, 'build')));
 
-+router.get('/*', function (req, res) {
-   res.sendFile(path.join(__dirname, 'build', 'index.html'));
- });
+router.get('*', function (req, res) {
+	res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 /*router.route('/icon/send_hover')
 .get(function(req, res){ 

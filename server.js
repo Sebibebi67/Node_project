@@ -21,7 +21,7 @@ var apiRoutes = require('./api/routes');
 //====================================================
 
 var hostname = 'localhost'; 
-var port = 3001;  
+var port = 3000;  
 
 app.use(fileUpload());
 
@@ -42,12 +42,10 @@ app.use(function(req, res, next) {
 //====================================================
 
 app.use("/api", apiRoutes);
-app.use("/web", webRoutes);
+app.use("/", webRoutes);
 
 app.route("*").all(function(req, res) {
-	return res.status(404).json({
-		"error" : "Bad URL"
-	});
+	return res.send(308).redirect('/');
 })
 
 //====================================================
