@@ -3,10 +3,11 @@ var path = require('path');
 
 var router = express.Router();
 
-router.use(express.static(path.join(__dirname,'/build')));
-router.get('/', function (req, res, next) {
-    res.sendFile(path.resolve('build/index.html'));
-});
+router.use(express.static(path.join(__dirname, 'build')));
+
++router.get('/*', function (req, res) {
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+ });
 
 /*router.route('/icon/send_hover')
 .get(function(req, res){ 

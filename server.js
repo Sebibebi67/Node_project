@@ -32,6 +32,7 @@ app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
 	res.header("Access-Control-Allow-Methods", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header('Content-Security-Policy', 'script-src \'self\'');
     res.setHeader("Content-Security-Policy", "script-src 'self' *");
 	next();
 });
@@ -41,7 +42,7 @@ app.use(function(req, res, next) {
 //====================================================
 
 app.use("/api", apiRoutes);
-app.use("/", webRoutes);
+app.use("/web", webRoutes);
 
 app.route("*").all(function(req, res) {
 	return res.status(404).json({
