@@ -30,6 +30,8 @@ var router = express.Router();
 let botManager = new BotManager();
 botManager.load();
 
+var NAMES = ["Ally", "Steve", "Max", "Lucie", "Astrid", "Tommy"];
+
 //====================================================
 // Define Routes
 //====================================================
@@ -55,6 +57,9 @@ router.route("/bots")
 		
 			let bot = JSON.parse(f);
 		
+			let name = (parseInt(id) <= NAMES.length)?NAMES[parseInt(id)-1]:"ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
+			bot.name = name;
+
 			listOfBots[id] = bot;
 		});
 
@@ -197,6 +202,9 @@ router.route("/bot/:id")
 			});
 		}
 		let bot = JSON.parse(data);
+		
+		let name = (parseInt(id) <= NAMES.length)?NAMES[parseInt(id)-1]:"ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
+		bot.name = name;
 	
 		return res.status(200).json(bot);						// 200 - OK
 	});
@@ -309,12 +317,14 @@ router.route("/bot/:id")
 	});
 })
 .patch(function(req, res){ 										// ====PATCH====
+	console.log("patch");
 	fs.readFile(PATH+"/"+req.params.id+'.json', (err, data) => {
 		if (err){
 			return res.status(404).json({						// 404 - Not Found
 				"error": 'Not Found'
 			});
 		}
+
 
 		if (req.body.state != undefined 
 			|| req.body.addmouth != undefined && req.body.addmouth != "" 
