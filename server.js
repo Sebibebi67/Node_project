@@ -20,8 +20,8 @@ var apiRoutes = require('./api/routes');
 // Init express
 //====================================================
 
-var hostname = 'localhost'; 
-var port = 3000;  
+var hostname = 'vps.tonychouteau.fr'; 
+var port = 8090;  
 
 app.use(fileUpload());
 
