@@ -52,7 +52,7 @@ The script [test.sh](test.sh) allows you to test some requests written in [reque
 ## **Potential Errors**
 
 If you are using windows, [test.sh](test.sh) may encounter this error :
-```bash
+```
 Unknown command "\r$"
 ```
 To solve this error, you can use one of the following commands :
@@ -64,7 +64,7 @@ OR
 dos2unix test.sh; dos2unix request.txt
 ```
 
-## **Author**
+## **Authors**
 
 * Tony CHOUTEAU
 * Sébastien HERT
