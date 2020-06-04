@@ -21,7 +21,7 @@ var apiRoutes = require('./api/routes');
 //====================================================
 
 var hostname = 'localhost'; 
-var port = 3000;  
+var port = 3001;  
 
 app.use(fileUpload());
 
@@ -30,6 +30,7 @@ app.use(bodyParser.json())
 
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+	res.header("Access-Control-Allow-Methods", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
 });

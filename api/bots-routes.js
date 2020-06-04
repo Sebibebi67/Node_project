@@ -203,7 +203,7 @@ router.route("/bot/:id")
 		}
 		let bot = JSON.parse(data);
 		
-		let name = (parseInt(id) <= NAMES.length)?NAMES[parseInt(id)-1]:"ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
+		let name = (parseInt(req.params.id) <= NAMES.length)?NAMES[parseInt(req.params.id)-1]:"ACEHILRTUVW123456789".split('').sort(function(){return 0.5-Math.random()}).join('');
 		bot.name = name;
 	
 		return res.status(200).json(bot);						// 200 - OK
