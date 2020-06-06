@@ -27,7 +27,9 @@ npm start
 
 [Documentation API](./resources/wiki/DISCORD.MD)
 
-[Click here to access the discord to try the bot manager](https://discord.gg/FUr7sZ)
+Link to join the Discord test server :
+
+[Discord Invitation](https://discord.gg/FUr7sZ)
 
 ## **Testing Script**
 
