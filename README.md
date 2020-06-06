@@ -27,9 +27,7 @@ npm start
 
 [Documentation API](./resources/wiki/DISCORD.MD)
 
-## **Web mouth**
-
-N/A
+[Click here to access the discord to try the bot manager](https://discord.gg/FUr7sZ)
 
 ## **Testing Script**
 
