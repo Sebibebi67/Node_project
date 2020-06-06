@@ -29,7 +29,7 @@ npm start
 
 Link to join the Discord test server :
 
-[Discord Invitation](https://discord.gg/FUr7sZ)
+[Click here to join](https://discord.gg/FUr7sZ)
 
 ## **Testing Script**
 
