@@ -4,11 +4,6 @@
 
 [README.MD](../../README.md)
 
-##
-
-Link to join the Discord test server :
-
-[Click here to join](https://discord.gg/FUr7sZ)
 
 ## **Commands**
 
